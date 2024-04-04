@@ -2,7 +2,7 @@ import React from "react";
 
 function Boutton(props){
     return(
-        <button> {props.btn}
+        <button value={props.value} onClick={props.click}><a className="ref" href={props.lien}>{props.btn}</a> 
         </button>
 
     )

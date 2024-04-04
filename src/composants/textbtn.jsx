@@ -7,7 +7,7 @@ function Textebtn (props){
    <div id="sport" className="textebtn">
     <h2 > {props.textebtn}</h2>
     <p className="ptextbtn"> {props.textebtnp}  </p>
-    <Boutton  btn={props.textebtnbtn}/>
+    <Boutton lien={props.lien} btn={props.textebtnbtn}/>
    
    </div>
     );

@@ -14,9 +14,11 @@ function Home(){
         <Header src = {"./public/img/1200x680_sc_f1yhtk6wcamaltg.jpg"}
          alt={"dessin du champs de mars avec une foule popualire"} 
          h1={"Jeux Olympique Paris 2024"}
-           p= {"test"} 
-           btn1= {"Activitées"}
-           btn2= {"Nos offres"}
+           p= {"En 2024, Paris accueillera le plus grand évènement de son histoire. 100 ans après, les Jeux Olympiques et Paralympiques sont de retour pour vous faire vibrer dans la plus belle ville du monde, aux quatre coins de la France et sur des sites de compétition iconiques, pour des Jeux qui s’annoncent inoubliables. Pour assister au plus grand évènement sportif au monde, Paris 2024 propose une offre de services à la hauteur de l’évènement. Plusieurs solutions clés en main : de l’achat du billet en solo, duo ou familiale, optez pour l’offre la plus adaptée à vos besoins."} 
+           btn1= {"Les sports"}
+           btn2= {"Billeterie"}
+           lien1={"#sport"}
+           lien2={"/offre"}
          />
         <Carte 
         hsport={"Les sports"} psport={"Pour les Jeux Olympique 2024 ! La France presente 3 nouvelles activités sportives."}
@@ -26,7 +28,7 @@ function Home(){
             offre={"./public/img/billets-Jeux-olympiques-Tokyo-2020-tickets.jpg"} offrealt={"image de billet"}
             jeu={"./public/img/63da3a7e85f00_modele-brouillon.jpg"} jeualt={"logo paris 2024"}
         />
-       <Textebtn  textebtn={"Les sports olympiques Paris 2024."}   textebtnp={"Pour les jeux olymppique 2024, la France va proposer 41 sports olympique avec 4 sports additonnels. Athlétisme, aviron, badminton, basketball, basketball 3×3, boxe, canoë sprint, canoë-kayak slalom, cyclisme sur piste, cyclisme sur route, BMX freestyle, BMX racing, Mountain bike (VTT), escrime, football, golf, gymnastique artistique, gymnastique rythmique, trampoline, haltérophilie, handball, hockey, judo, lutte, pentathlon moderne, rugby, natation, natation artistique, natation marathon, plongeon, waterpolo, sports équestres, taekwondo, tennis, tennis de table, tir, tir à l’arc, triathlon, voile, volleyball, volleyball de plage."} textebtnbtn={"Nos offres"}/>
+       <Textebtn lien={"#offre"} textebtn={"Les sports olympiques Paris 2024."}   textebtnp={"Pour les jeux olymppique 2024, la France va proposer 41 sports olympique avec 4 sports additonnels. Athlétisme, aviron, badminton, basketball, basketball 3×3, boxe, canoë sprint, canoë-kayak slalom, cyclisme sur piste, cyclisme sur route, BMX freestyle, BMX racing, Mountain bike (VTT), escrime, football, golf, gymnastique artistique, gymnastique rythmique, trampoline, haltérophilie, handball, hockey, judo, lutte, pentathlon moderne, rugby, natation, natation artistique, natation marathon, plongeon, waterpolo, sports équestres, taekwondo, tennis, tennis de table, tir, tir à l’arc, triathlon, voile, volleyball, volleyball de plage."} textebtnbtn={"Nos offres"}/>
        <Floter/>
       <Float/>
      <Footer/>

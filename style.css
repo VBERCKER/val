@@ -3,24 +3,61 @@ body{
   background: linear-gradient(69deg, rgba(2,0,36,1) 0%, rgba(254,254,255,1) 43%, rgba(255,215,0,1) 100%);
 }
 #root{
-    margin-left : 70px;
-    margin-right: 70px;
+    margin-left : 80px;
+    margin-right: 80px;
    
 }
-
+.ref{
+  text-decoration-line: none;
+  color: rgb(2,0,36);
+}
 #header{
 margin-bottom : 70px;
-
-
 }
-.navbar1{
-    margin-bottom: 50px;
-    background: rgb(2,0,36);
-background: linear-gradient(69deg, rgba(2,0,36,1) 0%, rgba(254,254,255,1) 0%, rgba(255,215,0,1) 100%);
+/*offre*/
+.headeroffre{
+  height: 70vh;
+ margin-bottom: 70px;
+background-image: url("./public/img/Paris2024-Contenus-Affiche_Officiel-RVB-2560x1440-1.webp");
+background-size: cover;
+background-position: center;
+}
+.titreoffre{
   display: flex;
   justify-content: center;
+  align-items: center;
+ height: 70vh;
+font-size: 100px ;
+}
+/*NAVBAR */
+.navbar1{
+    margin-bottom: 50px;
+}
+.flex-container {
+  display: flex;
+  font-size: 20px;
+  box-sizing: border-box;
+  margin: 10px 0px;
+  border-bottom: solid 1px;
+  
+  
 }
 
+.flex-items {
+  display: flex;
+ justify-content: center;
+ width: 100%;
+ justify-content: center;
+ 
+}
+
+.flex-items2 {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  
+}
+/*text ert bouton */
 .textebtn{
     position: relative;
     text-align: center;
@@ -308,3 +345,230 @@ background: linear-gradient(69deg, rgba(2,0,36,1) 0%, rgba(254,254,255,1) 43%, r
 .offre{
   margin-top: 70px;
 }
+/*form d enregistrement*/ 
+
+.formRE{
+  display: flex;
+  justify-content: center;
+}
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 350px;
+  padding: 20px;
+  border-radius: 20px;
+  position: relative;
+  background-color: white;
+  color: #fff;
+  border: 1px solid #333;
+}
+
+.title {
+  font-size: 28px;
+  font-weight: 600;
+  letter-spacing: -1px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding-left: 30px;
+  color: #050401;
+}
+
+.title::before {
+  width: 18px;
+  height: 18px;
+}
+
+.title::after {
+  width: 18px;
+  height: 18px;
+  animation: pulse 1s linear infinite;
+}
+
+.title::before,
+.title::after {
+  position: absolute;
+  content: "";
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  left: 0px;
+  background-color: #ffd700;
+}
+
+.message, 
+.signin {
+  font-size: 14.5px;
+  color: #050401;
+}
+
+.signin {
+  text-align: center;
+}
+
+.signin a:hover {
+  text-decoration: underline #ffd700;
+}
+
+.signin a {
+  color: #ffd700;
+}
+
+.flex {
+  display: flex;
+  width: 100%;
+  gap: 6px;
+}
+
+.form label {
+  position: relative;
+}
+
+.form label .input {
+  background-color: #333;
+  color: #fff;
+  width: 100%;
+  padding: 20px 05px 05px 10px;
+  outline: 0;
+  border: 1px solid rgba(105, 105, 105, 0.397);
+  border-radius: 10px;
+}
+
+.form label .input + span {
+  color: rgba(249, 245, 245, 0.697);
+  position: absolute;
+  left: 10px;
+  top: 0px;
+  font-size: 0.9em;
+  cursor: text;
+  transition: 0.3s ease;
+}
+
+.form label .input:placeholder-shown + span {
+  top: 12.5px;
+  font-size: 0.9em;
+}
+
+.form label .input:focus + span,
+.form label .input:valid + span {
+  color: #ffd700;
+  top: 0px;
+  font-size: 0.7em;
+  font-weight: 600;
+}
+
+.input {
+  font-size: medium;
+}
+
+
+
+@keyframes pulse {
+  from {
+    transform: scale(0.9);
+    opacity: 1;
+  }
+
+  to {
+    transform: scale(1.8);
+    opacity: 0;
+  }
+}
+/* from connexion */
+
+.login{
+    
+    display: flex;
+    justify-content: center;
+    margin-bottom: 120px;
+    margin-top: 120px;
+}
+.logo {
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+  text-align: center;
+  color: #1877f2;
+  font-weight: 700;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  padding: 1.5rem 1rem;
+  width: 300px;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
+}
+
+form input {
+  outline: none;
+  padding: 0.4rem 0.5rem;
+  margin-bottom: 0.8rem;
+  font-size: 0.9rem;
+}
+
+form input:focus {
+  border: 1.8px solid #1877f2;
+}
+
+form .login {
+  outline: none;
+  border: none;
+  background: #1877f2;
+  padding: 0.8rem 1rem;
+  border-radius: 0.4rem;
+  font-size: 0.9rem;
+  color: #fff;
+}
+
+form .login:hover {
+  background: #0f71f1;
+  cursor: pointer;
+}
+
+form a {
+  text-decoration: none;
+  text-align: center;
+  font-size: 0.9rem;
+  padding-top: 0.8rem;
+  color: #1877f2;
+}
+
+form hr {
+  background: #f7f7f7;
+  margin: 0.5rem;
+}
+
+form .create-account {
+  outline: none;
+  border: none;
+  background: #06b909;
+  padding: 0.8rem 1rem;
+  border-radius: 0.5rem;
+  font-size: 0.9rem;
+  color: #fff;
+  width: 75%;
+  margin: 0 auto;
+}
+
+form .create-account:hover {
+  background: #03ad06;
+  cursor: pointer;
+}
+
+/*animate H1*/
+.flicker-in-1 {
+	-webkit-animation: flicker-in-1 2s ease-out forwards;
+	        animation: flicker-in-1 2s ease-out forwards;
+}
+
+/* ----------------------------------------------
+ * Generated by Animista on 2024-4-3 16:19:57
+ * Licensed under FreeBSD License.
+ * See http://animista.net/license for more info. 
+ * w: http://animista.net, t: @cssanimista
+ * ---------------------------------------------- */
+
+@keyframes flicker-in-1{0%{opacity:0}10%{opacity:0}10.1%{opacity:1}10.2%{opacity:0}20%{opacity:0}20.1%{opacity:1}20.6%{opacity:0}30%{opacity:0}30.1%{opacity:1}30.5%{opacity:1}30.6%{opacity:0}45%{opacity:0}45.1%{opacity:1}50%{opacity:1}55%{opacity:1}55.1%{opacity:0}57%{opacity:0}57.1%{opacity:1}60%{opacity:1}60.1%{opacity:0}65%{opacity:0}65.1%{opacity:1}75%{opacity:1}75.1%{opacity:0}77%{opacity:0}77.1%{opacity:1}85%{opacity:1}85.1%{opacity:0}86%{opacity:0}86.1%{opacity:1}100%{opacity:1}}

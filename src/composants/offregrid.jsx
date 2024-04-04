@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import { Card2 } from "./card";
 
 
-const offres = [{offre:"Solo", descriptions:"Acheter une place", sport:"Rugby"},{offre:"Duo", descriptions:"Acheter 2 places", sport:"Rugby"},{offre:"Familiale", descriptions:"Acheter jusqu'a 4 places", sport:"Rugby"}];
+const offres = [{id: 1, offre:"Solo", descriptions:"Achetez 1 place", sport:"Rugby"},{id: 2,offre:"Duo", descriptions:"Acheter 2 places", sport:"Rugby"},{id: 3,offre:"Familiale", descriptions:"Achetez de 1 à 4 places", sport:"Rugby"}];
 
 
 
@@ -10,16 +10,20 @@ const offres = [{offre:"Solo", descriptions:"Acheter une place", sport:"Rugby"},
 function OffreGrid (){
     const [offre, setbilletes]= useState("Cliquez sur une offre pour accèder à la bieterie !");
 
-    function billets(){
-        setbilletes([offres]) 
+    function billets(event){
+        const test=event.target.value;
+        setbilletes(test) ;
+     
     }; 
     return (
         <div>
             <div class="container text-center">
   <div class="row row-cols-3">
- { offres.map((items)=>{return(<div class="col"> <Card2 offre={items.offre} description ={items.descriptions}  /></div>)})}
+  
+ { offres.map((items)=>{return(<div class="col"> <Card2 click={billets} value={items.offre} offre={items.offre} description ={items.descriptions}  /></div>)})}
   </div>
-  <p className="offre" onClick={billets}>{offre} </p>
+  <p className="offre" >{offre} </p>
+  
 </div>
         </div>
     )
