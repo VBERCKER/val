@@ -1,4 +1,5 @@
 import React from "react";
+import Button from "./bouton";
 
 
  function Carte (props){
@@ -14,7 +15,7 @@ import React from "react";
     </div>
     <div class="col">
       <div class="card h-100">
-        <img src={props.offre} class="card-img-top" alt={props.offrealt}/>
+        <img src={props.offre} class="card-img-top" height="350" alt={props.offrealt}/>
         <div class="card-body ">
           <h5 class="card-title">{props.hoffre}</h5>
           <p class="card-text">{props.poffre}</p>
@@ -58,8 +59,8 @@ function Card2(props){
   <p >
     {props.description}
   </p>
-  <p >Cliquez ici !
-</p></div>
+  <Button click={props.click} value={props.value} btn={"cliquez ici !"}/>
+  </div>
     </div>
   )
 }
