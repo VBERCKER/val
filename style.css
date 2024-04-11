@@ -1,23 +1,61 @@
+@font-face {
+  font-family: "Geologica-p";
+  font-weight: 400px;
+  src: url("./public/police/font/Geologica_Auto-Regular.ttf");
+}
+@font-face {
+  font-family: "Geologica-titre";
+  font-weight: 600px;
+  src: url("./public/police/font/Geologica_Cursive-SemiBold.ttf");
+}
+
 body{
+  
   background: rgb(2,0,36);
   background: linear-gradient(69deg, rgba(2,0,36,1) 0%, rgba(254,254,255,1) 43%, rgba(255,215,0,1) 100%);
 }
 #root{
-    margin-left : 80px;
-    margin-right: 80px;
+    margin-left : 5%;
+    margin-right: 5%;
    
 }
-.ref{
-  text-decoration-line: none;
-  color: rgb(2,0,36);
+/*Police*/
+.police-titre{
+  font-family: "Geologica-titre",sans-serif;
 }
-#header{
-margin-bottom : 70px;
+.police{
+  font-family: "Geologica-titre",sans-serif;
+  
+    
 }
-/*offre*/
-.headeroffre{
+.police-p{
+  font-family: "Geologica-p", sans-serif;
+}
+
+/*hearde*/
+
+.titre-header{
+  font-size: 90px;
+  display: flex;
+  justify-content: center;
+  margin-top: 10%;
+}
+#header {
+margin-bottom : 5%;
+height: 70vh;
+}
+.home-card h2{
+  text-decoration: underline;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 5%;
+  font-size: 50px;
+}
+
+/* Page offre*/
+.headeroffre {
   height: 70vh;
- margin-bottom: 70px;
+ margin-bottom: 10%;
 background-image: url("./public/img/Paris2024-Contenus-Affiche_Officiel-RVB-2560x1440-1.webp");
 background-size: cover;
 background-position: center;
@@ -30,9 +68,7 @@ background-position: center;
 font-size: 100px ;
 }
 /*NAVBAR */
-.navbar1{
-    margin-bottom: 50px;
-}
+
 .flex-container {
   display: flex;
   font-size: 20px;
@@ -57,7 +93,17 @@ font-size: 100px ;
   align-items: center;
   
 }
-/*text ert bouton */
+/*nos services*/
+
+.service{
+  margin-top: 10px;
+}
+
+/*text et bouton */
+#sport {
+  margin-top : 5%;
+  
+  }
 .textebtn{
     position: relative;
     text-align: center;
@@ -65,11 +111,19 @@ font-size: 100px ;
     margin-bottom: 70px;
 }
 .ptextbtn{
-  margin-top: 50px;
-  margin-bottom: 50px;
+  margin-top: 5%;
+  margin-bottom: 5%;
+  
 }
 
-/*btn sport */
+  .textebtn h2{
+    padding-bottom : 2% ;
+    text-decoration: underline;
+    
+    }
+
+/* sport */
+
 
 .card1 {
   position: relative;
@@ -134,18 +188,28 @@ background: linear-gradient(69deg, rgba(2,0,36,1) 0%, rgba(254,254,255,1) 43%, r
   transform: rotate(-45deg);
 }
 
+
 /* nos offres */ 
 
 .offre-titre{
-  margin-top : 70px;
-  margin-bottom: 70px;
+  margin-top : 5%;
+  margin-bottom: 5%;
   text-align: center;
+
+}
+.offre-titre h2{
+  text-decoration: underline;
+  
 }
 
 
 /*button*/
+.ref{
+  text-decoration-line: none;
+  color: rgb(2,0,36);
+}
 
-button {
+.button {
   padding: 0.8em 1.8em;
   border: 2px solid #ffd700;
   position: relative;
@@ -345,6 +409,140 @@ background: linear-gradient(69deg, rgba(2,0,36,1) 0%, rgba(254,254,255,1) 43%, r
 .offre{
   margin-top: 70px;
 }
+/*card 4 offre page */
+.card4 {
+  overflow: hidden;
+  position: relative;
+  background-color: #ffffff;
+  text-align: left;
+  border-radius: 0.5rem;
+  max-width: 290px;
+  height: 290px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.header4 {
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
+  font-size: 40px;
+  font-family: "Geologica-titre",sans-serif;
+}
+
+.description {
+  display: flex;
+  justify-content: center;
+  font-size: 20px;
+}
+
+.actions4 {
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
+
+}
+
+
+
+
+/*card Ebillet */
+
+.cardebilet {
+  width: 190px;
+  height: 254px;
+  background: white;
+  border-radius: 10px;
+  transition: border-radius 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+ }
+ 
+ .shadowebillet {
+  box-shadow: inset 0 -3em 3em rgba(0,0,0,0.1),
+              0 0  0 2px rgb(190, 190, 190),
+              0.3em 0.3em 1em rgba(0,0,0,0.3);
+ }
+ 
+ .titreebillet{
+  
+  display: flex;
+  justify-content: center;
+  margin-bottom: 70px;
+  text-decoration: underline;
+  color: #ffd700;
+
+  
+}
+ /*carte compte */
+ .cardcompte {
+  position: relative;
+  width: 500px;
+  height: 250px;
+  border-radius: 14px;
+  z-index: 1111;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 20px 20px 60px #bebebe, -20px -20px 60px #ffffff;
+  ;
+}
+
+.bgcompte {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  width: 490px;
+  height: 240px;
+  z-index: 2;
+  background: rgba(255, 255, 255, .95);
+  backdrop-filter: blur(24px);
+  border-radius: 10px;
+  overflow: hidden;
+  outline: 2px solid white;
+}
+
+.blobcompte {
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  left: 50%;
+  width: 450px;
+  height: 150px;
+  border-radius: 50%;
+  background-color: #ff0000;
+  opacity: 1;
+  filter: blur(12px);
+  animation: blob-bounce 5s infinite ease;
+}
+
+@keyframes blob-bounce {
+  0% {
+    transform: translate(-100%, -100%) translate3d(0, 0, 0);
+  }
+
+  25% {
+    transform: translate(-100%, -100%) translate3d(100%, 0, 0);
+  }
+
+  50% {
+    transform: translate(-100%, -100%) translate3d(100%, 100%, 0);
+  }
+
+  75% {
+    transform: translate(-100%, -100%) translate3d(0, 100%, 0);
+  }
+
+  100% {
+    transform: translate(-100%, -100%) translate3d(0, 0, 0);
+  }
+}
+.cardCompte{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+ 
 /*form d enregistrement*/ 
 
 .formRE{
@@ -557,8 +755,62 @@ form .create-account:hover {
   background: #03ad06;
   cursor: pointer;
 }
+/*animation*/
+/*anim titre header*/
+.text-flicker-in-glow{-webkit-animation:text-flicker-in-glow 4s linear both;animation:text-flicker-in-glow 4s linear both}
+/* ----------------------------------------------
+ * Generated by Animista on 2024-4-9 15:21:45
+ * Licensed under FreeBSD License.
+ * See http://animista.net/license for more info. 
+ * w: http://animista.net, t: @cssanimista
+ * ---------------------------------------------- */
 
-/*animate H1*/
+ @-webkit-keyframes text-flicker-in-glow{0%{opacity:0}10%{opacity:0;text-shadow:none}10.1%{opacity:1;text-shadow:none}10.2%{opacity:0;text-shadow:none}20%{opacity:0;text-shadow:none}20.1%{opacity:1;text-shadow:0 0 30px rgba(255,255,255,.25)}20.6%{opacity:0;text-shadow:none}30%{opacity:0;text-shadow:none}30.1%{opacity:1;text-shadow:0 0 30px rgba(255,255,255,.45),0 0 60px rgba(255,255,255,.25)}30.5%{opacity:1;text-shadow:0 0 30px rgba(255,255,255,.45),0 0 60px rgba(255,255,255,.25)}30.6%{opacity:0;text-shadow:none}45%{opacity:0;text-shadow:none}45.1%{opacity:1;text-shadow:0 0 30px rgba(255,255,255,.45),0 0 60px rgba(255,255,255,.25)}50%{opacity:1;text-shadow:0 0 30px rgba(255,255,255,.45),0 0 60px rgba(255,255,255,.25)}55%{opacity:1;text-shadow:0 0 30px rgba(255,255,255,.45),0 0 60px rgba(255,255,255,.25)}55.1%{opacity:0;text-shadow:none}57%{opacity:0;text-shadow:none}57.1%{opacity:1;text-shadow:0 0 30px rgba(255,255,255,.55),0 0 60px rgba(255,255,255,.35)}60%{opacity:1;text-shadow:0 0 30px rgba(255,255,255,.55),0 0 60px rgba(255,255,255,.35)}60.1%{opacity:0;text-shadow:none}65%{opacity:0;text-shadow:none}65.1%{opacity:1;text-shadow:0 0 30px rgba(255,255,255,.55),0 0 60px rgba(255,255,255,.35),0 0 100px rgba(255,255,255,.1)}75%{opacity:1;text-shadow:0 0 30px rgba(255,255,255,.55),0 0 60px rgba(255,255,255,.35),0 0 100px rgba(255,255,255,.1)}75.1%{opacity:0;text-shadow:none}77%{opacity:0;text-shadow:none}77.1%{opacity:1;text-shadow:0 0 30px rgba(255,255,255,.55),0 0 60px rgba(255,255,255,.4),0 0 110px rgba(255,255,255,.2),0 0 100px rgba(255,255,255,.1)}85%{opacity:1;text-shadow:0 0 30px rgba(255,255,255,.55),0 0 60px rgba(255,255,255,.4),0 0 110px rgba(255,255,255,.2),0 0 100px rgba(255,255,255,.1)}85.1%{opacity:0;text-shadow:none}86%{opacity:0;text-shadow:none}86.1%{opacity:1;text-shadow:0 0 30px rgba(255,255,255,.6),0 0 60px rgba(255,255,255,.45),0 0 110px rgba(255,255,255,.25),0 0 100px rgba(255,255,255,.1)}100%{opacity:1;text-shadow:0 0 30px rgba(255,255,255,.6),0 0 60px rgba(255,255,255,.45),0 0 110px rgba(255,255,255,.25),0 0 100px rgba(255,255,255,.1)}}@keyframes text-flicker-in-glow{0%{opacity:0}10%{opacity:0;text-shadow:none}10.1%{opacity:1;text-shadow:none}10.2%{opacity:0;text-shadow:none}20%{opacity:0;text-shadow:none}20.1%{opacity:1;text-shadow:0 0 30px rgba(255,255,255,.25)}20.6%{opacity:0;text-shadow:none}30%{opacity:0;text-shadow:none}30.1%{opacity:1;text-shadow:0 0 30px rgba(255,255,255,.45),0 0 60px rgba(255,255,255,.25)}30.5%{opacity:1;text-shadow:0 0 30px rgba(255,255,255,.45),0 0 60px rgba(255,255,255,.25)}30.6%{opacity:0;text-shadow:none}45%{opacity:0;text-shadow:none}45.1%{opacity:1;text-shadow:0 0 30px rgba(255,255,255,.45),0 0 60px rgba(255,255,255,.25)}50%{opacity:1;text-shadow:0 0 30px rgba(255,255,255,.45),0 0 60px rgba(255,255,255,.25)}55%{opacity:1;text-shadow:0 0 30px rgba(255,255,255,.45),0 0 60px rgba(255,255,255,.25)}55.1%{opacity:0;text-shadow:none}57%{opacity:0;text-shadow:none}57.1%{opacity:1;text-shadow:0 0 30px rgba(255,255,255,.55),0 0 60px rgba(255,255,255,.35)}60%{opacity:1;text-shadow:0 0 30px rgba(255,255,255,.55),0 0 60px rgba(255,255,255,.35)}60.1%{opacity:0;text-shadow:none}65%{opacity:0;text-shadow:none}65.1%{opacity:1;text-shadow:0 0 30px rgba(255,255,255,.55),0 0 60px rgba(255,255,255,.35),0 0 100px rgba(255,255,255,.1)}75%{opacity:1;text-shadow:0 0 30px rgba(255,255,255,.55),0 0 60px rgba(255,255,255,.35),0 0 100px rgba(255,255,255,.1)}75.1%{opacity:0;text-shadow:none}77%{opacity:0;text-shadow:none}77.1%{opacity:1;text-shadow:0 0 30px rgba(255,255,255,.55),0 0 60px rgba(255,255,255,.4),0 0 110px rgba(255,255,255,.2),0 0 100px rgba(255,255,255,.1)}85%{opacity:1;text-shadow:0 0 30px rgba(255,255,255,.55),0 0 60px rgba(255,255,255,.4),0 0 110px rgba(255,255,255,.2),0 0 100px rgba(255,255,255,.1)}85.1%{opacity:0;text-shadow:none}86%{opacity:0;text-shadow:none}86.1%{opacity:1;text-shadow:0 0 30px rgba(255,255,255,.6),0 0 60px rgba(255,255,255,.45),0 0 110px rgba(255,255,255,.25),0 0 100px rgba(255,255,255,.1)}100%{opacity:1;text-shadow:0 0 30px rgba(255,255,255,.6),0 0 60px rgba(255,255,255,.45),0 0 110px rgba(255,255,255,.25),0 0 100px rgba(255,255,255,.1)}}
+
+.text-pop-up-top{-webkit-animation:text-pop-up-top .5s cubic-bezier(.25,.46,.45,.94) both;animation:text-pop-up-top .5s cubic-bezier(.25,.46,.45,.94) 1s both}
+
+/* ----------------------------------------------
+ * Generated by Animista on 2024-4-9 15:15:6
+ * Licensed under FreeBSD License.
+ * See http://animista.net/license for more info. 
+ * w: http://animista.net, t: @cssanimista
+ * ---------------------------------------------- */
+
+ @-webkit-keyframes text-pop-up-top{0%{-webkit-transform:translateY(0);transform:translateY(0);-webkit-transform-origin:50% 50%;transform-origin:50% 50%;text-shadow:none}100%{-webkit-transform:translateY(-50px);transform:translateY(-50px);-webkit-transform-origin:50% 50%;transform-origin:50% 50%;text-shadow:0 1px 0 #ccc,0 2px 0 #ccc,0 3px 0 #ccc,0 4px 0 #ccc,0 5px 0 #ccc,0 6px 0 #ccc,0 7px 0 #ccc,0 8px 0 #ccc,0 9px 0 #ccc,0 50px 30px rgba(0,0,0,.3)}}@keyframes text-pop-up-top{0%{-webkit-transform:translateY(0);transform:translateY(0);-webkit-transform-origin:50% 50%;transform-origin:50% 50%;text-shadow:none}100%{-webkit-transform:translateY(-50px);transform:translateY(-50px);-webkit-transform-origin:50% 50%;transform-origin:50% 50%;text-shadow:0 1px 0 #ccc,0 2px 0 #ccc,0 3px 0 #ccc,0 4px 0 #ccc,0 5px 0 #ccc,0 6px 0 #ccc,0 7px 0 #ccc,0 8px 0 #ccc,0 9px 0 #ccc,0 50px 30px rgba(0,0,0,.3)}}
+
+/*animate H1 header*/
+.letter{
+  color:#484848;
+  animation :flash 1.2s linear infinite;
+ 
+
+}
+.letter:nth-child(1){
+  animation-delay: 0.1s;
+}
+.letter:nth-child(2){
+  animation-delay: 0.2s;
+}
+.letter:nth-child(3){
+  animation-delay: 0.3s;
+}
+.letter:nth-child(4){
+  animation-delay: 0.4s;
+}
+@keyframes flash{
+  0%{
+    color:#fff900;
+    text-shadow: 0 0 7px #fff900;
+  }
+  90%{
+    color:#484848;
+    text-shadow:  none;
+  }
+  100%{
+    color:#fff900;
+    text-shadow: 0 0 7px #fff900;
+  }
+}
 .flicker-in-1 {
 	-webkit-animation: flicker-in-1 2s ease-out forwards;
 	        animation: flicker-in-1 2s ease-out forwards;
@@ -572,3 +824,194 @@ form .create-account:hover {
  * ---------------------------------------------- */
 
 @keyframes flicker-in-1{0%{opacity:0}10%{opacity:0}10.1%{opacity:1}10.2%{opacity:0}20%{opacity:0}20.1%{opacity:1}20.6%{opacity:0}30%{opacity:0}30.1%{opacity:1}30.5%{opacity:1}30.6%{opacity:0}45%{opacity:0}45.1%{opacity:1}50%{opacity:1}55%{opacity:1}55.1%{opacity:0}57%{opacity:0}57.1%{opacity:1}60%{opacity:1}60.1%{opacity:0}65%{opacity:0}65.1%{opacity:1}75%{opacity:1}75.1%{opacity:0}77%{opacity:0}77.1%{opacity:1}85%{opacity:1}85.1%{opacity:0}86%{opacity:0}86.1%{opacity:1}100%{opacity:1}}
+
+/*sidebar*/
+
+.contente-menu{
+  margin-top: 5%;
+  
+}
+.menu{
+  margin-top: -10px;
+}
+
+/*animation au scroll*/ 
+
+.active{animation:scale-in-center 1s cubic-bezier(.25,.46,.45,.94) 0.5s both}
+/* ----------------------------------------------
+ * Generated by Animista on 2024-4-8 15:45:36
+ * Licensed under FreeBSD License.
+ * See http://animista.net/license for more info. 
+ * w: http://animista.net, t: @cssanimista
+ * ---------------------------------------------- */
+
+ @keyframes scale-in-center{0%{transform:scale(0);opacity:1}100%{transform:scale(1);opacity:1}}
+
+
+ /*responsive*/
+
+
+@media (min-width:576px) {
+  .card1 {
+    width: 200px;
+    height: 150px;
+  }
+  .titreoffre {
+    font-size: 30px;
+  }
+  .card1-titre{
+    font-size: 20px;
+  }
+  .card1-text{
+    font-size: 7px;
+  }
+  .police-p{
+    font-size: 12px;
+  }
+  .police-titre{
+    font-size: 50px;
+  }
+  .police{
+    font-size: 60px ;
+  }
+  .cardcompte{
+    width: 300px;
+    left: 200px
+  }
+  .bgcompte{
+    width: 290px;
+  }
+  .cardCompte{
+    font-size: 20px;
+  }
+  .card1__title{
+    font-size: 20px;
+  }
+  .cardebilet{
+    width: 500px;
+  }
+  .button{
+    font-size: 10px;
+  }
+}
+
+@media (min-width:768px) {
+  .card1 {
+    width: 300px;
+    height: 200px;
+  }
+  .card1-titre{
+    font-size: 30px;
+  }
+  .card1-text{
+    font-size: 10px;
+  }
+  .titreoffre {
+    font-size: 50px;
+  }
+  .police-p{
+    font-size: 15px;
+  }
+  .cardcompte{
+    width: 400px;
+    left: 200px
+  }
+  .bgcompte{
+    width: 390px;
+  }
+  .cardCompte{
+    font-size: 30px;
+  }
+  .card1__title{
+    font-size: 30px;
+  }
+  .button{
+    font-size: 16px;
+  }
+}
+
+@media (min-width:810px) {
+  .cardcompte{
+    width: 400px;
+    left: 300px;
+  }
+  .bgcompte{
+    width: 390px;
+  }
+}
+@media (min-width:904px) {
+  .cardcompte{
+    width: 400px;
+    left: 200px;
+  }
+  .bgcompte{
+    width: 390px;
+  }
+}
+@media (min-width:906px) {
+  .cardcompte{
+    width: 400px;
+    left: 200px;
+  }
+  .bgcompte{
+    width: 390px;
+  }
+}
+
+@media (min-width:992px) {
+  .card1 {
+    width: 400px;
+    height: 300px;
+  }
+  .card1-titre{
+    font-size: 40px;
+  }
+  .card1-text{
+    font-size: 15px;
+  }
+  .titreoffre {
+    font-size: 80px;
+  }
+
+  .police-p{
+    font-size: 20px;
+  }
+  .police{
+    font-size: 70px ;
+  }
+  .cardcompte{
+    width: 400px;
+    left: 0px;
+  }
+}
+
+@media (min-width:1200px) {
+  .card1 {
+    width: 500px;
+    height: 400px;
+  }
+  .card1-titre{
+    font-size: 50px;
+  }
+  .card1-text{
+    font-size: 20px;
+  }
+  .titreoffre {
+    font-size: 100px;
+  }
+  .police{
+    font-size: 80px ;
+  }
+}
+
+@media (min-width:1400px) {
+  .card1 {
+    width: 600px;
+    height: 400px;
+  }
+  .titreoffre {
+    font-size: 110px;
+  }
+}
+
+

@@ -1,5 +1,5 @@
 {
-  "name": "my-react-app",
+  "name": "jo24",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -9,12 +9,15 @@
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
+  "proxy":"https://localhost:4000",
   "dependencies": {
     "@headlessui/react": "^1.7.18",
     "@headlessui/vue": "^1.7.19",
     "animate.css": "^4.1.1",
     "bootstrap": "^5.3.3",
+    "mysqlconnector": "^2.0.6",
     "react": "^18.2.0",
+    "react-bootstrap": "^2.10.2",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.22.3"
   },
@@ -28,5 +31,9 @@
     "eslint-plugin-react-refresh": "^0.4.5",
     "tailwindcss": "^3.4.3",
     "vite": "^5.1.6"
-  }
+  },
+  "main": "index.js",
+  "repository": "https://github.com/VBERCKER/JO24.git",
+  "author": "valentin",
+  "license": "MIT"
 }

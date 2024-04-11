@@ -13,7 +13,7 @@ function Offrepage(){
     
     <Nav/>
     <div className="headeroffre">
-      <h1 className="titreoffre fw-bold text-body-emphasis"> Découvrez nos offres ! </h1>
+      <h1 className="police-titre titreoffre fw-bold text-body-emphasis"> Découvrez nos offres ! </h1>
     </div>
        
         <OffreGrid />
