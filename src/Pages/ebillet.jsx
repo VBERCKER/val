@@ -12,11 +12,11 @@ const ebilet =[{billet : "Basket 3*3 "},{billet:"Football"},{billet:"Rugby à 7"
     return(<div>
     <Nav1/>
     <Sidebar  titrem={"Mes E-billets"} contentem={ <div >
-            <div class="container text-center ">
+            <div className="container text-center ">
 
-         <div class="row row-cols-3 g-5  ">
+         <div className="row row-cols-3 g-5  ">
   
- {ebilet.map((items)=>{return(<div class="col "> <CardEbillet titre={items.billet}/></div>)})}
+ {ebilet.map((items)=>{return(<div className="col "> <CardEbillet titre={items.billet}/></div>)})}
          </div>
   
   

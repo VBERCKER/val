@@ -3,14 +3,14 @@ import React from "react";
 function OfferCard(props){
     return (
         <div>
-             <div class="myCard">
-        <div class="innerCard">
-            <div class="frontSide">
-                <p class="title">{props.fronttitre}</p>
+             <div className="myCard">
+        <div className="innerCard">
+            <div className="frontSide">
+                <p className="title">{props.fronttitre}</p>
                 <p className="police-p">{props.frontcontent}</p>
             </div>
-            <div class="backSide">
-                <p class="title">{props.backtitre}</p>
+            <div className="backSide">
+                <p className="title">{props.backtitre}</p>
                 <p className="police-p">{props.backcontent}</p>
             </div>
         </div>

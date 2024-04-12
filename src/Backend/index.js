@@ -1,25 +1,25 @@
 import express from "express";
-import cors from "cors";
 import bodyParser from "body-parser";
+import path from 'path'; 
+import { dirname } from "path";
+import { fileURLToPath } from "url";
 
 
 
+
+const __dirname= dirname(fileURLToPath(import.meta.url));
 
 const app=express();
 const port=3000;
-const corsOptions={
-origin :"*",
-credentials:true,
-optionSuccessStatus:200
-}
+
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended:false}))
-app.use(cors(corsOptions  ))
 
-app.post("/compte", (req,res)=>{
 
-    res.redirect("/")
+app.get("/*", (req,res)=>{
+
+    res.sendFile(path.join(__dirname,'.'))
 })
 
 app.listen(port,()=>{console.log("serveur fonctionne")});

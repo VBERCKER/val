@@ -17,10 +17,10 @@ function OffreGrid (){
     }; 
     return (
         <div>
-            <div class="container text-center">
-  <div class=" row g-4 row-cols-3 row-cols-sm-1 row-cols-md-3">
+            <div className="container text-center">
+  <div className=" row g-4 row-cols-3 row-cols-sm-1 row-cols-md-3">
   
- { offres.map((items)=>{return(<div class="col "> <CardOffre click={billets} value={items.offre} offre={items.offre} description ={items.descriptions}  /></div>)})}
+ { offres.map((items)=>{return(<div className="col "> <CardOffre click={billets} value={items.offre} offre={items.offre} description ={items.descriptions}  /></div>)})}
   </div>
   <p className="offre" >{offre} </p>
   
