@@ -47,7 +47,7 @@ function Nav(props){
     </div>
     <div className="flex-items2">
 <ul>
-<li> <a className="nav-link" href="http://localhost:3000">Connexion</a> </li>
+<li> <a className="nav-link" href="connexion">Connexion</a> </li>
   <li> <a className="nav-link" href="register">S'enregistrer</a> </li>
 </ul>
     </div>
@@ -106,7 +106,7 @@ function Nav1(){
   
 </div>
  )
-};
+}
 
 function Header(props)
 
@@ -124,7 +124,7 @@ function Header(props)
   
         </div>
       </div>
-    </div>)}; 
+    </div>)}
     function Header1(props)
 
     { return (<div id="header" className="row flex-lg-row-reverse align-items-center g-5 py-5">
@@ -138,6 +138,6 @@ function Header(props)
             <div className="d-grid gap-2 d-md-flex justify-content-md-start">
             </div>
           </div>
-        </div>)}; 
+        </div>)}
 
     export {Header,Nav,Header1,Nav1}; 
