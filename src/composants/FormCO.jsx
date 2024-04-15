@@ -10,18 +10,25 @@ function FormRE(){
 
         nom :"",
         prenom:"",
+        nom_utilisateur: "",
         mail :"", 
         pwd:"",
+      
     });
+
+  
 
 const handleChange =(e)=>{
     setsingin((prev)=> ({...prev,[e.target.name]:e.target.value}))
+    
 };
 const handleClick = async e=>{
     e.preventDefault()
+   
 try{
     await axios.post("http://localhost:3000/add", signin)
     navigate("/connexion")
+    setsingin("")
 }catch(err){
     console.log(err)
 }
@@ -29,7 +36,7 @@ try{
 }
 
 const navigate= useNavigate();
-console.log(signin);
+
   return(
     <div>
 <form className="form">
@@ -101,16 +108,36 @@ function FormUtI(){
 
 
 function LogIN (){
+    const [login,setlogin]= useState({
+
+        mail :"", 
+        pwd:"",
+      
+    });
+
+    const handleChange =(e)=>{
+        setlogin((prev)=> ({...prev,[e.target.name]:e.target.value}))
+        
+    };
+    const handleClick = async e=>{
+        e.preventDefault()
+    try{
+       const result= await axios.post("http://localhost:3000/connexion", login)
+        console.log(result)
+    }catch(error){console.log(error)}
+    }
+   
+    console.log(login);
   return(
     <div>
     <form action="/compte" method="post">
   <p className="logo">PARIS 2024</p>
-  <input type="text" placeholder="Email" name="email" required=""/>
-  <input type="password" placeholder="Password" name="pwd"required=""/>
-  <Buton btn={"Se connecter"}/>
+  <input type="text" onChange={handleChange} placeholder="Email" name="mail" required=""/>
+  <input type="password" onChange={handleChange} placeholder="Password" name="pwd" required=""/>
+  <Buton click={handleClick} btn={"Se connecter"}/>
   <a href="#">Mots de passe oublié ?</a>
   <hr/>
-<Buton btn={"Créer un nouveau compte"}/>
+<Buton lien={"/register"} btn={"Créer un nouveau compte"}/>
 </form>
     
     </div>
@@ -119,3 +146,20 @@ function LogIN (){
 
 
 export {FormRE, LogIN, FormUtI}; 
+
+try{
+    const result= db.query(connexion,[mail]);
+    if(result.rows.length>0){
+        const utilisateur = result.rows[0];
+        const storedPwd =utilisateur.pwd;
+
+        if(pwd === storedPwd){
+            res.json('ok');
+        }else{res.json('incorect pwd')}
+    }else{
+        res.json('incoret mail')
+    }
+    }catch(err){console.log}
+
+}
+)
