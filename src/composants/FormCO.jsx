@@ -110,30 +110,39 @@ function FormUtI(){
 function LogIN (){
     const [login,setlogin]= useState({
 
-        mail :"", 
-        pwd:"",
+        username :"", 
+        password :"",
       
     });
+    const [erreur,setErreur]= useState("");
 
     const handleChange =(e)=>{
         setlogin((prev)=> ({...prev,[e.target.name]:e.target.value}))
         
     };
+
     const handleClick = async e=>{
         e.preventDefault()
     try{
        const result= await axios.post("http://localhost:3000/connexion", login)
-        console.log(result)
+        console.log(result.data)
+        if(result.data =='Autorisation'){
+            navigate("/compte")
+            setlogin("")
+
+        }else {setErreur(result.data)}
     }catch(error){console.log(error)}
     }
    
-    console.log(login);
+const navigate= useNavigate();
+   
   return(
     <div>
     <form action="/compte" method="post">
   <p className="logo">PARIS 2024</p>
-  <input type="text" onChange={handleChange} placeholder="Email" name="mail" required=""/>
-  <input type="password" onChange={handleChange} placeholder="Password" name="pwd" required=""/>
+  <input type="text" onChange={handleChange} placeholder="Email" name="username" required=""/>
+  <input type="password" onChange={handleChange} placeholder="Password" name="password" required=""/>
+  <div style={{color:"red"}}> <p>{erreur}</p></div>
   <Buton click={handleClick} btn={"Se connecter"}/>
   <a href="#">Mots de passe oublié ?</a>
   <hr/>
@@ -146,20 +155,3 @@ function LogIN (){
 
 
 export {FormRE, LogIN, FormUtI}; 
-
-try{
-    const result= db.query(connexion,[mail]);
-    if(result.rows.length>0){
-        const utilisateur = result.rows[0];
-        const storedPwd =utilisateur.pwd;
-
-        if(pwd === storedPwd){
-            res.json('ok');
-        }else{res.json('incorect pwd')}
-    }else{
-        res.json('incoret mail')
-    }
-    }catch(err){console.log}
-
-}
-)

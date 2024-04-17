@@ -4,7 +4,7 @@ import Home from "./Pages/Home";
 import Connexion from "./Pages/Connexion";
 import Compte from "./Pages/compte"; 
 import Enregistrement from "./Pages/Enregistrement";
-import {BrowserRouter as Router, Routes, Route, Link} from "react-router-dom";
+import {BrowserRouter as Router, Routes, Route} from "react-router-dom";
 import Utilisateur from "../src/Pages/utilisataeur";
 import Ebillet from "../src/Pages/ebillet";
 import Panier from "../src/Pages/Panier";
