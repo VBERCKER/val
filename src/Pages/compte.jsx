@@ -28,10 +28,10 @@ test();
 
     return (<div>
         <Nav1 />
-        <div>{connexion}</div>
+        
         <Sidebar titrem={"Mon compte"} contentem={  <div className="container text-center">
   <div className="row g-5 ">
-    <div className="col "><CardCompte lien={"/utilisateur"} titre={"Mes informations utilisateurs"}/> </div>
+    <div className="col ">    <div>{connexion}</div><CardCompte lien={"/utilisateur"} titre={"Mes informations utilisateurs"}/> </div>
     <div className="col"><CardCompte lien={"/ebillet"}  titre={"Mes E-billets"}/> </div>
     <div className="col"><CardCompte lien={"/panier"} titre={"Mon panier"}/> </div>
     <div className="col"><CardCompte lien={"/offre"} titre={"Billetrerie"}/> </div>
