@@ -13,7 +13,7 @@ function Compte(){
 async function test (){
 
     try{
-        const result= await axios.get("http://localhost:3000/autorisation")
+        const result= await axios.get("http://localhost:3000/validation")
          console.log(result.data)
          if(result.data =='Autorisation'){
             return setconnexion(<div>tout ok </div>)
