@@ -5,22 +5,24 @@ import Sidebar from "../composants/sidebar";
 import { CardCompte, CardEbillet } from "../composants/card";
 import axios from 'axios';
 
+
 function Compte(){
  
     const [connexion,setconnexion]= useState("Non conecté");
 
 
 async function test (){
-
-    try{
-        const result= await axios.get("http://localhost:3000/validation")
-         console.log(result.data)
-         if(result.data =='Autorisation'){
-            return setconnexion(<div>tout ok </div>)
- 
-         }else {setconnexion(result.data)}
-     }catch(error){console.log(error)}
-     }
+    try{ const requestOptions = { method: 'POST', mode: "cors", cache: "no-cache", credentials: "include", headers: { "Content-Type": "application/json", 'Access-Control-Allow-Origin': '*' }, redirect: "follow", referrerPolicy: "no-referrer", body: JSON.stringify(login) };
+        
+    const result= await fetch('http://localhost:3000/autorisation', requestOptions); 
+    const response = await result.json();
+    
+    console.log(response); 
+    if(response =='Autorisation')
+    { 
+     setlogin("ok"); 
+}else {setErreur(response)} 
+}catch(error){console.log(error)} }
 
 
 test();

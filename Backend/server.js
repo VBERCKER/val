@@ -22,18 +22,30 @@ const db = mysql.createConnection({
     password : "valentin.6",
     database : "JO24"
 })
-
+const whitelist = ['http://localhost:3000','http://localhost:5173', /** other domains if any */ ]
+ const corsOptions = { 
+    credentials: true, 
+    origin: function(origin, callback) { 
+        if (whitelist.indexOf(origin) !== -1) 
+        { callback(null, true) 
+        } else {
+             callback(new Error('Not allowed by CORS')) 
+            } 
+        }
+     } 
+     
+     
 app.use(express.json())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended:false}))
-app.use(cors())
+app.use(cors(corsOptions))
 
 //session 
 app.use(session({
     secret : "TROPSECRETWORD",   // permet de securiser la session 
     resave: false, // enrgistrement de la session dans la bd meme si serveur redemarer ou autre la session persiste
     saveUninitialized : true, // save une session dans la store 
-    cookie:{
+    cookie:{ secure : false,
         maxAge : 1000 * 60 * 60 * 24,    //temps en miliseconde expiration cookies 
     }
 
@@ -45,7 +57,7 @@ app.use(passport.session());
 
 /// autorisation d'accès 
 app.get('/autorisation', (req,res)=>{ // a lier avec les pages back souvegarde un cookio 
-console.log(req.utilisateur);
+console.log(req.user);
     if(req.isAuthenticated()){
         res.json('Autorisation') 
     }else {
@@ -77,7 +89,7 @@ app.post("/add", async(req,res)=>{
     const pwd = req.body.pwd; 
     const passHash = await bcrypt.hash(pwd,10)
 
-    const add= "INSERT INTO utilisateur(nom,prenom,nom_utilisateur,mail,pwd,cles_utilisateur) VALUES(?)";
+    const add= "INSERT INTO utilisateur(nom,prenom,nom_utilisateur,mail,pwd,cles_utilisateur) VALUES(?) RETURNING *";
     const values=[
         req.body.nom,
         req.body.prenom,
@@ -97,7 +109,7 @@ app.post("/add", async(req,res)=>{
 //login 
 
 app.post("/connexion",passport.authenticate("local",{ 
-    successRedirect : "/valider", 
+    successRedirect : "/autorisation",
     failureRedirect : "/nonautorisation", 
     
 })
@@ -106,9 +118,8 @@ app.post("/connexion",passport.authenticate("local",{
 
 app.get("/valider", (req,res)=>{
 
-    
-    
-    return res.json("Autorisation");
+ 
+    return res.redirect("/autorisation");
    
 })
 
@@ -145,14 +156,14 @@ app.get("/jwt",(req,res)=>{
 passport.use(new Strategy(async function verify(username,password,cb){ // doit matcher avec lo from 
 console.log(username);
 
-const connexion = "SELECT * FROM utilisateur WHERE mail =(?)";
+const connexion = "SELECT * FROM utilisateur WHERE mail =(?) ";
 
     try{
           db.query(connexion,[username],async (err,data)=>{
 
             if(data.length>0){   //verif email 
-                const utilisateur =data[0];
-                const bdPwd =utilisateur.pwd;
+                const user =data[0];
+                const bdPwd =user.pwd;
               
                bcrypt.compare(password, bdPwd ,(err, result)=>{
                 console.log(result) /// verif pwd et conecté 
@@ -160,7 +171,7 @@ const connexion = "SELECT * FROM utilisateur WHERE mail =(?)";
                       return cb(err)
                     }else{
                         if(result){
-                            return cb(null, utilisateur);  //va permettre d'accceer aux info uti avce req.user plus tard
+                            return cb(null, user);  //va permettre d'accceer aux info uti avce req.user plus tard
                         } else{
                             return cb(null, false);
                         }
@@ -170,16 +181,18 @@ const connexion = "SELECT * FROM utilisateur WHERE mail =(?)";
 
         }})
     
-        }catch(err){return cb(err)}
+        }catch(err){return cb(err);}
 }));
 
-passport.serializeUser((utilisateur, cb)=>{  //stocker les donne utilisateur en local 
-cb(null,utilisateur); 
-})
+passport.serializeUser((user, cb)=>{  //stocker les donne utilisateur en local 
+cb(null,user); 
 
-passport.deserializeUser((utilisateur, cb)=>{  //a veerif les donnees utilisateur en local 
-    cb(null,utilisateur); 
-    })
+});
+
+passport.deserializeUser((user, cb)=>{  //a veerif les donnees utilisateur en local 
+    cb(null,user); 
+    
+    });
 
 // express 
 app.listen(process.env.SERVER_PORT,()=>{console.log("serveur fonctionne")});

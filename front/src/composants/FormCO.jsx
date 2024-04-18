@@ -4,6 +4,9 @@ import { useNavigate} from "react-router-dom";
 import axios from 'axios';
 
 
+
+      
+
 function FormRE(){
 
     const [signin,setsingin]= useState({
@@ -123,16 +126,17 @@ function LogIN (){
 
     const handleClick = async e=>{
         e.preventDefault()
-    try{
-       const result= await axios.post("http://localhost:3000/connexion", login)
-        console.log(result.data)
-        if(result.data =='Autorisation'){
-            navigate("/compte")
-            setlogin("")
-
-        }else {setErreur(result.data)}
-    }catch(error){console.log(error)}
-    }
+        try{ const requestOptions = { method: 'POST', mode: "cors", cache: "no-cache", credentials: "include", headers: { "Content-Type": "application/json", 'Access-Control-Allow-Origin': '*' }, redirect: "follow", referrerPolicy: "no-referrer", body: JSON.stringify(login) };
+        
+        const result= await fetch('http://localhost:3000/connexion', requestOptions); 
+        const response = await result.json();
+        
+        console.log(response); 
+        if(response =='Autorisation')
+        { navigate("/compte");
+         setlogin(""); 
+    }else {setErreur(response)} 
+ }catch(error){console.log(error)} }
    
 const navigate= useNavigate();
    
