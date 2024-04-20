@@ -3,12 +3,18 @@ import { Nav1 } from "../composants/header";
 import Footer from "../composants/footer";
 import { FormUtI} from "../composants/FormCO";
 import Sidebar from "../composants/sidebar";
+import { useAuth } from '../composants/auth'
 
 export default function Utilisateur(){
+
+
+    
+ 
+
+
     return (<div >
 
-<Nav1/>
-<Sidebar titrem={"Mes informations utilisateurs"} contentem={<div>
+<div>
 
     <div className="login">
 
@@ -21,7 +27,7 @@ export default function Utilisateur(){
 
 </div>
 
-}/>
+
 
     </div>
         

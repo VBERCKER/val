@@ -8,7 +8,7 @@ import {Nav} from "../composants/header";
 function Connexion(){
    
     return (<div>
-    <Nav/>
+  
   
         <div className="login">
             <LogIN/>

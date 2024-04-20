@@ -5,7 +5,7 @@ import Sidebar from "../composants/sidebar";
 
 export default function Ebillet(){
     return(<div>
-        <Nav1/>
+       
         
         <h1>je suis un panier </h1>
         <Footer/>

@@ -1,11 +1,20 @@
 import  React from 'react';
 import Boutton from "./bouton";
+import { NavLink,Link } from 'react-router-dom';
+import { useAuth } from '../composants/auth'
+import { useNavigate } from 'react-router-dom'
 
 
 
 
 
 function Nav(props){
+  const navigate = useNavigate()
+  const auth = useAuth()
+  const handleLogout = () => {
+    auth.logout()
+    navigate('/')
+  }
   
   return (<div className="navbar1">
   <div className="flex-container">
@@ -19,13 +28,21 @@ function Nav(props){
     <div className="collapse navbar-collapse" id="navbarSupportedContent">
       <ul className="navbar-nav me-auto mb-2 mb-lg-0">
         <li className="nav-item">
-          <a className="nav-link active" aria-current="page" href="/">Acceuil</a>
+        <div className="nav-link active" aria-current="page">
+        <NavLink className={"navcolor"}to='/' >Acceuil</NavLink>
+        </div>
         </li>
-        <li className="nav-item">
-          <a className="nav-link" href="/offre">Offres / Billeterie</a>
+
+        <li className="nav-item ">
+        <div className="nav-link">
+        <NavLink className={"navcolor"} to="/offre" >Offres / Billeterie</NavLink>
+        </div>
         </li>
+
         <li className="nav-item">
-          <a className="nav-link" href="#sport">Les sports</a>
+        <div className="nav-link">
+        <NavLink className={"navcolor"} to="/compte" >Les sports</NavLink>
+        </div>
         </li>
         <li>
         
@@ -47,8 +64,16 @@ function Nav(props){
     </div>
     <div className="flex-items2">
 <ul>
-<li> <a className="nav-link" href="connexion">Connexion</a> </li>
-  <li> <a className="nav-link" href="register">S'enregistrer</a> </li>
+{!auth.user && (<div>
+  <li> <Link to='connexion'>Connexion</Link></li>
+  <li><Link to='register'>S'enregistrer</Link> </li>
+</div>
+ 
+      )}
+{auth.user && (
+  <li> <a className="nav-link" onClick={handleLogout} href=''>Déconnexion</a> </li>
+)}
+  
 </ul>
     </div>
   </div>
@@ -60,7 +85,7 @@ function Nav(props){
 
 
 
-function Nav1(){
+function Nav1(props){
 
   return (<div className="navbar1">
   <div className="flex-container">
@@ -99,7 +124,7 @@ function Nav1(){
     </div>
     <div className="flex-items2">
 <ul>
-<li> <a className="nav-link" href="/Connexion">Déconnexion</a> </li>
+<li> <a className="nav-link" onClick={props.click} href=''>Déconnexion</a> </li>
 </ul>
     </div>
   </div>

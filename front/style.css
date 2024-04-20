@@ -69,6 +69,14 @@ font-size: 100px ;
 }
 /*NAVBAR */
 
+.active{ /* class de navlink*/
+  text-decoration :none;
+  font-weight: bold;
+  
+}
+.navcolor{
+  color : black;
+}
 .flex-container {
   display: flex;
   font-size: 20px;

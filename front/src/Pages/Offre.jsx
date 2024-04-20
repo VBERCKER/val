@@ -11,7 +11,6 @@ import Footer from "../composants/footer";
 function Offrepage(){
     return (<div>
     
-    <Nav/>
     <div className="headeroffre">
       <h1 className="police-titre titreoffre fw-bold text-body-emphasis"> Découvrez nos offres ! </h1>
     </div>

@@ -24,8 +24,7 @@ function Home(){
    },[]);
     return(
         <div>
-         
-        <Nav/>
+   
         <div className="headercharg titre-header">
         <span className="police letter">Jeux</span>
         <span className="police letter">Olympique</span>

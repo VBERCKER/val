@@ -20,7 +20,7 @@ function OffreGrid (){
             <div className="container text-center">
   <div className=" row g-4 row-cols-3 row-cols-sm-1 row-cols-md-3">
   
- { offres.map((items)=>{return(<div className="col "> <CardOffre click={billets} value={items.offre} offre={items.offre} description ={items.descriptions}  /></div>)})}
+ { offres.map((items)=>{return(<div className="col " key={items.id}> <CardOffre click={billets} value={items.offre} offre={items.offre} description ={items.descriptions}  /></div>)})}
   </div>
   <p className="offre" >{offre} </p>
   

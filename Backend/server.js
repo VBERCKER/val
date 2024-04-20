@@ -58,8 +58,10 @@ app.use(passport.session());
 /// autorisation d'accès 
 app.get('/autorisation', (req,res)=>{ // a lier avec les pages back souvegarde un cookio 
 console.log(req.user);
+
     if(req.isAuthenticated()){
         res.json('Autorisation') 
+      
     }else {
         res.json('NON')
         
@@ -76,6 +78,7 @@ app.get("/", (_,res)=>{
 
 //test 2
 app.get("/users",(_,res)=>{
+   
     const sql= "SELECT * FROM utilisateur";
     db.query(sql, (err,data)=>{
         if(err)return res.json(err);

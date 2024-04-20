@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import Buton from "./bouton";
 import { useNavigate} from "react-router-dom";
 import axios from 'axios';
+import {  useLocation } from 'react-router-dom'
+import { useAuth } from './auth'
 
 
 
@@ -67,7 +69,7 @@ const navigate= useNavigate();
         <span>Mots de passe</span>
     </label>
     <label>
-        <input className="input" type="password" placeholder="" required=""/>
+        <input className="input" type="password" onChange={handleChange} placeholder="" required=""/>
         <span>Confirmer le mots de passe</span>
     </label>
     <Buton click={handleClick} btn={"Enregistrer"}/>
@@ -111,6 +113,7 @@ function FormUtI(){
 
 
 function LogIN (){
+    
     const [login,setlogin]= useState({
 
         username :"", 
@@ -123,23 +126,29 @@ function LogIN (){
         setlogin((prev)=> ({...prev,[e.target.name]:e.target.value}))
         
     };
+    const navigate= useNavigate();
+    const location = useLocation()
+    const auth = useAuth() 
+    const redirectPath = location.state?.path || '/compte'
 
     const handleClick = async e=>{
         e.preventDefault()
+     
         try{ const requestOptions = { method: 'POST', mode: "cors", cache: "no-cache", credentials: "include", headers: { "Content-Type": "application/json", 'Access-Control-Allow-Origin': '*' }, redirect: "follow", referrerPolicy: "no-referrer", body: JSON.stringify(login) };
         
         const result= await fetch('http://localhost:3000/connexion', requestOptions); 
         const response = await result.json();
-        
         console.log(response); 
         if(response =='Autorisation')
-        { navigate("/compte");
-         setlogin(""); 
+        { 
+            auth.login(login)
+            navigate(redirectPath, { replace: true })
+            
+            
     }else {setErreur(response)} 
  }catch(error){console.log(error)} }
    
-const navigate= useNavigate();
-   
+  
   return(
     <div>
     <form action="/compte" method="post">

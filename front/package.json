@@ -9,7 +9,6 @@
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
-
   "dependencies": {
     "@headlessui/react": "^1.7.18",
     "@headlessui/vue": "^1.7.19",
