@@ -17,7 +17,7 @@ import {Profile} from "./Pages/profil"
   import 'bootstrap/dist/css/bootstrap.min.css';
 import { Login } from "./composants/login";
 import { RequireAuth } from "./composants/requireAuth"
-import Test from "./composants/test";
+
 import { Nav } from "./composants/header";
   
 
@@ -39,8 +39,8 @@ function App(){
                 <Route path="/panier" element={<Panier/>}/>
 
                                 { /*route protégées*/}
+                                
                      <Route path="/compte" element={<RequireAuth><Compte/></RequireAuth>}>
-
                      <Route path="utilisateur" element={<Utilisateur/>}/>
                         <Route path="ebillet" element={<Ebillet/>}/>
                         <Route path="panier" element={<Panier/>}/>

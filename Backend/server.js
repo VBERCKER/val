@@ -13,6 +13,7 @@ import flash from 'express-session'
 
 import cookieParser from "cookie-parser";
 
+
 const app=express();
 
 // conexion bd 
@@ -57,10 +58,11 @@ app.use(passport.session());
 
 /// autorisation d'accès 
 app.get('/autorisation', (req,res)=>{ // a lier avec les pages back souvegarde un cookio 
-console.log(req.user);
+
 
     if(req.isAuthenticated()){
-        res.json('Autorisation') 
+        res.json([{name:'Autorisation'},{user : req.user}])
+        
       
     }else {
         res.json('NON')
@@ -77,13 +79,18 @@ app.get("/", (_,res)=>{
 })
 
 //test 2
-app.get("/users",(_,res)=>{
+app.get("/users/:id",(req,res )=>{
    
-    const sql= "SELECT * FROM utilisateur";
-    db.query(sql, (err,data)=>{
+    const id = parseInt(req.params.id)
+    const sql= "SELECT * FROM utilisateur WHERE id=(?)";
+    console.log(id)
+    db.query(sql,[id], (err,data)=>{
+        console.log(data)
         if(err)return res.json(err);
         return res.json(data);
+        
     })
+    
 })
 
 // ajout utilisateur 
