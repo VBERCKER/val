@@ -26,7 +26,7 @@ const ebilet =[{billet : "Basket 3*3 "},{billet:"Football"},{billet:"Rugby à 7"
   
   
             </div>
-            <Footer/>
+         
         </div> 
     
         </div>)

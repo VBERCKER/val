@@ -20,7 +20,7 @@ function Sidebar(props){
   <h3 className="w3-bar-item">Menu</h3>
   <nav>
  
- 
+  <div><Link to='/compte'> Menu principal</Link></div>
  <div><Link to='utilisateur'> Mes informations utilisateur</Link></div>
  <div><Link to='ebillet'>Mes E-billets</Link></div>
  <div><Link to='panier'>Mon panier </Link></div>
@@ -38,14 +38,18 @@ function Sidebar(props){
   <h1>{props.titrem}</h1>
   </div>
 </div>
-
+<div>
+{props.content} 
+</div>
 <div className="w3-container contente-menu ">
 <Outlet/>
+
+
 </div>
    
 </div>
 
-    </div>
+    </div> 
   )
 }
 

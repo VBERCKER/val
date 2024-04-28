@@ -33,7 +33,7 @@ function App(){
        <Nav/>
             <Routes>
                 <Route path="/" element={<Home/>}/>
-                <Route path="/offre" element={<RequireAuth><Offrepage/></RequireAuth>}/>
+                <Route path="/offre" element={<Offrepage/>}/>
                 <Route path="/connexion" element={<Connexion/>}/>
                 <Route path="/register" element={<Enregistrement/>}/>
                 <Route path="/panier" element={<Panier/>}/>

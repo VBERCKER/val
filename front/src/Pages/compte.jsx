@@ -25,31 +25,47 @@ import { getCookie } from "../composants/cookies";
     
     fetch(`http://localhost:3000/users/${cookie}`,requestOptions)
   
-      .then(res=> console.log(res.json()))
+      .then((response)=>{
+        return response=response.json()
+      } )
+      .then((result)=>{const data =result
+        
+        setuser(data[0].nom)
+        
+        }
+    )
       .catch(err=>console.log(err));
   },[])
   
 
+
     return (<div>
         
-        <h1>{user}</h1>
-        <Sidebar titrem={"Mon compte"} //contentem={  <div className="container text-center">
- // <div className="row g-5 ">
-   // <div className="col "><CardCompte lien={<Link to="utilisateur"/>} titre={"Mes informations utilisateurs"}/> </div>
-   // <div className="col"><CardCompte lien={"/ebillet"}  titre={"Mes E-billets"}/> </div>
-   // <div className="col"><CardCompte lien={"/panier"} titre={"Mon panier"}/> </div>
-   // <div className="col"><CardCompte lien={"/offre"} titre={"Billetrerie"}/> </div>
+        <Sidebar titrem={"Mon compte"} content={  <div className="container text-center">
+    <h2>Bienvenue {user}</h2>
 
-   // </div>
-   // <Footer/>
-    //</div>}
-    />
-      
-        </div>
-      
-    )}
+    
+        </div>} />
 
-
+       
+        
+  
+    
+      </div>)}
 
 
 export default Compte;
+
+
+/*
+ <div className="container text-center">
+  <div className="row g-5 ">
+   <div className="col "><CardCompte link={"utilisateur"} titre={"Mes informations utilisateurs"}/> </div>
+    <div className="col"><CardCompte link={"ebillet"}  titre={"Mes E-billets"}/> </div>
+    <div className="col"><CardCompte link={"panier"} titre={"Mon panier"}/> </div>
+    <div className="col"><CardCompte link={"offre"} titre={"Billetrerie"}/> </div>
+
+    </div>
+    </div>
+
+*/ 

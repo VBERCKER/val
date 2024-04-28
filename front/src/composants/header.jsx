@@ -41,7 +41,7 @@ function Nav(props){
 
         <li className="nav-item">
         <div className="nav-link">
-        <NavLink className={"navcolor"} to="/compte" >Les sports</NavLink>
+        <NavLink className={"navcolor"} to="/compte" >Mon compte</NavLink>
         </div>
         </li>
         <li>

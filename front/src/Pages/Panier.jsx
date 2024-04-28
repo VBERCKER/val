@@ -8,6 +8,6 @@ export default function Ebillet(){
        
         
         <h1>je suis un panier </h1>
-        <Footer/>
+      
         </div>)
 };

@@ -15,7 +15,7 @@ function Enregistrement(){
     <FormRE/> 
     </div>
          
-     <Footer/>
+    
          
     </div>
       

@@ -22,7 +22,7 @@ export default function Utilisateur(){
 </div>
 <div>
 
-<Footer/>
+
 </div>
 
 </div>

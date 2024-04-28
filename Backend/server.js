@@ -160,7 +160,31 @@ app.get("/jwt",(req,res)=>{
 
 })
 
+// offre 
+app.get("/sport",(req,res)=>{
 
+    const offre = "SELECT * FROM Sport ";
+
+    db.query(offre, (err,data)=>{
+        console.log(data)
+        if(err)return res.json(err);
+        return res.json(data);
+        
+    })
+
+})
+app.get("/offre",(req,res)=>{
+
+    const offre = "SELECT * from Sport JOIN Offre ON Sport.id = SPORT_ID";
+
+    db.query(offre, (err,data)=>{
+        console.log(data)
+        if(err)return res.json(err);
+        return res.json(data);
+        
+    })
+
+})
 
 // verifier la connesion pour la session on copie cole le bloc de connexion //plus besoin de req.boby 
 passport.use(new Strategy(async function verify(username,password,cb){ // doit matcher avec lo from 
