@@ -81,9 +81,16 @@ font-size: 100px ;
   margin-top: 100px;
 }
 
+/*Page PANIER */
 
+.panier-img{
+  width: 200px;
+}
+.tfooter{
+ text-align: end;
+ border-right: 1px solid;
 
-
+}
 /*NAVBAR */
 
 .active{ /* class de navlink*/
@@ -234,7 +241,7 @@ background: linear-gradient(69deg, rgba(2,0,36,1) 0%, rgba(254,254,255,1) 43%, r
   color: rgb(2,0,36);
 }
 
-.button {
+.button1 {
   padding: 0.8em 1.8em;
   border: 2px solid #ffd700;
   position: relative;
@@ -250,7 +257,7 @@ background: linear-gradient(69deg, rgba(2,0,36,1) 0%, rgba(254,254,255,1) 43%, r
   
  }
  
- button::before {
+ .button1::before {
   content: '';
   width: 0;
   height: 300%;
@@ -265,11 +272,11 @@ background: linear-gradient(69deg, rgba(2,0,36,1) 0%, rgba(254,254,255,1) 43%, r
   z-index: -1;
  }
  
- button:hover::before {
+ .button1:hover::before {
   width: 105%;
  }
  
- button:hover {
+ .button1:hover {
   color: #111;
  }
  
@@ -586,6 +593,12 @@ background: linear-gradient(69deg, rgba(2,0,36,1) 0%, rgba(254,254,255,1) 43%, r
   border-radius: .5rem;
   transition: .3s ease;
  }
+ .cardoffre1-img-contente {
+  
+  height: 100%;
+  width: 100%;
+  
+ }
  
  .cardoffre1-info {
   padding-top: 10%;
@@ -596,6 +609,7 @@ background: linear-gradient(69deg, rgba(2,0,36,1) 0%, rgba(254,254,255,1) 43%, r
   height: 20px;
  }
  
+ 
  .cardoffre1-footer {
   width: 100%;
   display: flex;
@@ -604,7 +618,16 @@ background: linear-gradient(69deg, rgba(2,0,36,1) 0%, rgba(254,254,255,1) 43%, r
   padding-top: 10px;
   border-top: 1px solid #ddd;
  }
- 
+ .border{
+  border:2px solid red;
+  width: 80px;
+ }
+ .sport-form{
+  margin: 0; 
+  padding: 0;
+  border: 0; 
+  width: 190px;
+ }
  /*Text*/
  .text-title {
   font-weight: 900;
@@ -625,6 +648,7 @@ background: linear-gradient(69deg, rgba(2,0,36,1) 0%, rgba(254,254,255,1) 43%, r
   cursor: pointer;
   border-radius: 50px;
   transition: .3s ease-in-out;
+  
  }
  
  /*Hover*/
