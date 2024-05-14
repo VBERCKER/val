@@ -27,4 +27,27 @@ export const  userpwd = yup.object().shape({
 });
 
 
-
+export const  adminoffre = yup.object().shape({
+   
+    nom_offre :  yup.string().required(),
+   
+   
+});
+export const  adminplace = yup.object().shape({
+   
+    nom_offre :  yup.string().required(),
+   
+   
+});
+export const  admindispo = yup.object().shape({
+   
+    nom_offre :  yup.string().required(),
+   
+   
+});
+export const  adminid = yup.object().shape({
+   
+    nom_offre :  yup.string().required(),
+   
+   
+});

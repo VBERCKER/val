@@ -1135,3 +1135,7 @@ form .create-account:hover {
 }
 
 
+/*compte admin odifier*/ 
+.hidden-btn-compteadmin-modifier{
+  visibility : hidden
+}

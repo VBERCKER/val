@@ -9,7 +9,12 @@ import {BrowserRouter as Router, Routes, Route} from "react-router-dom";
 import Utilisateur from "../src/Pages/utilisataeur";
 import Ebillet from "../src/Pages/ebillet";
 import Panier from "../src/Pages/Panier";
-import {Profile} from "./Pages/profil"
+import Admin from "./Pages/admin/admin"
+import Ajouter from "./Pages/admin/Ajouter";
+import OffreVisuel from "./Pages/admin/offresVisu";
+import Supprimer from "./Pages/admin/supprimer";
+import Update from "./Pages/admin/Update";
+
 
 {
     /* The following line can be included in your src/index.js or App.js file */
@@ -41,16 +46,21 @@ function App(){
                                 { /*route protégées*/}
                                 
                      <Route path="/compte" element={<RequireAuth><Compte/></RequireAuth>}>
-                     <Route path="utilisateur" element={<Utilisateur/>}/>
+                         <Route path="utilisateur" element={<Utilisateur/>}/>
                         <Route path="ebillet" element={<Ebillet/>}/>
                         <Route path="panier" element={<Panier/>}/>
 
                      </Route>
 
-                    <Route path="/profile" element={ <Profile/>}/>
+                    <Route path="/admin" element={ <Admin/>}>
+                    <Route path="ajouter" element={<Ajouter/>}/>
+                    <Route path="visuel" element={<OffreVisuel/>}/>
+                    <Route path="supprimer" element={<Supprimer/>}/>
+                    <Route path="modifier" element={<Update/>}/>
+                    </Route>
 
                                  { /*test et autre*/}
-                <Route path="/login" element={<Login/>}/>
+               
                 <Route path="*" element ={<h1>Page iouvable !</h1>}/>
                
             </Routes>

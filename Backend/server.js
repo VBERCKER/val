@@ -116,6 +116,33 @@ app.post("/add", async(req,res)=>{
     })
 })
 
+
+
+
+// ajout offres
+app.post("/addoffres", async(req,res)=>{
+   
+   
+
+    const add= "INSERT INTO Offre(Offre,Place_offre,Prix_offre,Places_dispo,SPORT_ID) VALUES(?) ";
+    const values=[
+        req.body.Offre,
+        req.body.Place_offre,
+        req.body.Prix_offre,
+        req.body.Places_dispo,
+        req.body.SPORT_ID,
+    ];
+   
+    db.query(add,[values], (err,data)=>{
+        if(err)return res.json(err);
+        return res.json("Offre ajoutée");
+    })
+})
+
+
+
+
+
 //login 
 
 app.post("/connexion",passport.authenticate("local",{ 
@@ -185,6 +212,85 @@ app.get("/offre",(req,res)=>{
     })
 
 })
+
+//voir les offre admin  sport 
+app.get("/offreadminall",(req,res)=>{
+    
+    const sport = "SELECT id, Sport from Sport ";
+    
+
+    db.query(sport,async (err,data)=>{
+        console.log(data)
+        if(err)return res.json(err);
+        return res.json(data);
+        
+    })
+
+})
+//voir les offre admin par sport 
+app.get("/offreadminfilter/:id",(req,res)=>{
+    const id = parseInt(req.params.id)
+    const sport = "SELECT Offre.id,Sport,Offre,Place_offre,Prix_offre,Places_dispo,SPORT_ID from Sport JOIN Offre ON Sport.id = SPORT_ID WHERE SPORT_ID=(?)";
+    
+
+    db.query(sport,[id],async (err,data)=>{
+        console.log(data)
+        if(err)return res.json(err);
+        return res.json(data);
+        
+    })
+
+})
+
+//selectioner une offre à modifier 
+app.get("/offreadmin/:id",(req,res)=>{
+    const id = parseInt(req.params.id)
+    const sport = "SELECT Offre.id,Sport,Offre,Place_offre,Prix_offre,Places_dispo,SPORT_ID from Sport JOIN Offre ON Sport.id = SPORT_ID WHERE Offre.id=(?)";
+    
+
+    db.query(sport,[id],async (err,data)=>{
+        console.log(data)
+        if(err)return res.json(err);
+        return res.json(data);
+        
+    })
+
+})
+//Update une offre 
+
+app.patch("/update/:id",(req,res)=>{
+const id = parseInt(req.params.id)
+
+const update = `UPDATE JO24.Offre SET Offre=${req.body.Offre}, Place_offre=${req.body.Place_offre}, Prix_offre=${req.body.Prix_offre},Places_dispo=${req.body.Places_dispo}  WHERE id=(?)`;
+
+
+
+db.query(update,[id],async (err,data)=>{
+    console.log(data)
+    if(err)return res.json(err);
+    return res.json(data);
+    
+})
+})
+
+//delette offre
+
+app.delete("/offreadmindelete/:id",(req,res)=>{
+    const id = parseInt(req.params.id)
+    const supp = "DELETE FROM JO24.Offre  WHERE id=(?) ";
+    
+    
+    console.log(id)
+    
+    
+    db.query(supp,[id],async (err,data)=>{
+        console.log(data)
+        if(err)return res.json(err);
+        return res.json(data);
+        
+    })
+    })
+
 
 // verifier la connesion pour la session on copie cole le bloc de connexion //plus besoin de req.boby 
 passport.use(new Strategy(async function verify(username,password,cb){ // doit matcher avec lo from 
