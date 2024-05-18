@@ -98,15 +98,17 @@ app.post("/add", async(req,res)=>{
     var cles =Math.floor(Math.random()*1000000);
     const pwd = req.body.pwd; 
     const passHash = await bcrypt.hash(pwd,10)
+    const role = "user"
 
-    const add= "INSERT INTO utilisateur(nom,prenom,nom_utilisateur,mail,pwd,cles_utilisateur) VALUES(?) RETURNING *";
+    const add= "INSERT INTO utilisateur(nom,prenom,nom_utilisateur,mail,pwd,cles_utilisateur,role) VALUES(?) ";
     const values=[
         req.body.nom,
         req.body.prenom,
         req.body.nom +"."+req.body.prenom,
         req.body.mail,
         passHash,
-        cles
+        cles,
+        role
 
     ];
    
@@ -220,7 +222,6 @@ app.get("/offreadminall",(req,res)=>{
     
 
     db.query(sport,async (err,data)=>{
-        console.log(data)
         if(err)return res.json(err);
         return res.json(data);
         
@@ -234,7 +235,6 @@ app.get("/offreadminfilter/:id",(req,res)=>{
     
 
     db.query(sport,[id],async (err,data)=>{
-        console.log(data)
         if(err)return res.json(err);
         return res.json(data);
         
@@ -261,11 +261,30 @@ app.get("/offreadmin/:id",(req,res)=>{
 app.patch("/update/:id",(req,res)=>{
 const id = parseInt(req.params.id)
 
-const update = `UPDATE JO24.Offre SET Offre=${req.body.Offre}, Place_offre=${req.body.Place_offre}, Prix_offre=${req.body.Prix_offre},Places_dispo=${req.body.Places_dispo}  WHERE id=(?)`;
+const update = `UPDATE JO24.Offre SET ` ;
+const updateid =` WHERE id=(?)`;
+let offre =``;
+let place =``;
+let dispo =``;
+let prix =``;
+
+if(req.body.Offre.length >0 ){
+if(req.body.Offre && req.body.Place_offre || req.body.Places_dispo || req.body.Prix_offre ){offre =` Offre=${req.body.Offre},` }else if(req.body.Offre) {offre =` Offre=${req.body.Offre}`}}
+
+if(req.body.Place_offre.length >0){
+ if(req.body.Place_offre && req.body.Places_dispo || req.body.Prix_offre){place =` Place_offre=${req.body.Place_offre},` }else if(req.body.Place_offre){place =` Place_offre=${req.body.Place_offre}` }}
+
+ if(req.body.Prix_offre && req.body.Places_dispo){prix =` Prix_offre=${req.body.Prix_offre},` }else if(req.body.Prix_offre ){prix =` Prix_offre=${req.body.Prix_offre}`}
+
+ if(req.body.Places_dispo){dispo =` Places_dispo=${req.body.Places_dispo}` }
 
 
+console.log(req.body.Offre.length)
+const update3 = update+offre + place+ prix + dispo +updateid
+console.log(update3)
 
-db.query(update,[id],async (err,data)=>{
+
+db.query(update3,[id],async (err,data)=>{
     console.log(data)
     if(err)return res.json(err);
     return res.json(data);

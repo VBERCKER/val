@@ -35,7 +35,7 @@ function handleSport(e){
   async function handleClick(e){
     e.preventDefault()
     
-  console.log(sportfilter)
+ 
     await fetch(`http://localhost:3000/offreadminfilter/${sportfilter}`,requestOptions)
   
       .then((response)=>{
@@ -44,7 +44,7 @@ function handleSport(e){
       .then((result)=>{const data =result
       
         setfilter(data)
-        console.log(data)
+       
     }
     )
       .catch(err=>console.log(err));

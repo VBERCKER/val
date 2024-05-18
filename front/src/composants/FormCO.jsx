@@ -99,7 +99,7 @@ else if(validmail ==false ){setemail('Entrez votre email')}
    
 try{
     await axios.post("http://localhost:3000/add", signin)
-
+   
     navigate("/connexion")
     setsingin("")
 
@@ -204,6 +204,7 @@ function LogIN (){
     const location = useLocation()
     const auth = useAuth() 
     const redirectPath = location.state?.path || '/compte'
+    const redirectPathAdmin = location.state?.path || '/admin'
 
     const handleClick = async e=>{
         e.preventDefault()
@@ -213,16 +214,25 @@ function LogIN (){
         const result= await fetch('http://localhost:3000/connexion', requestOptions); 
         const response = await result.json();
         console.log(response); 
-        if(response[0].name =='Autorisation')
-        { 
-           
-            auth.login(login)
-            setCookie('user',response[1].user.id,2)
-           
-            navigate(redirectPath, { replace: true })
-           
-            
-    }else {setErreur(response)} 
+        if(response[0].name =='Autorisation' && response[1].user.role === 'user' )
+        {  
+                auth.login(login)
+                            setCookie('user',response[1].user.id,2)
+                        
+                            navigate(redirectPath, { replace: true })
+      
+    } else if(response[0].name =='Autorisation' && response[1].user.role === 'admin'){
+
+        auth.login(login)
+        setCookie('admin',response[1].user.id,1)
+    
+        navigate(redirectPathAdmin, { replace: true })
+
+
+    }
+    
+    
+    else {setErreur(response)} 
  }catch(error){console.log(error)} }
    
  

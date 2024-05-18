@@ -57,24 +57,23 @@ function handleClickSport(e){
     const [update,setupdate]= useState({
 
        
-        Offre : sport.Offre,
-        Place_offre: sport.Place_offre,
-        Prix_offre:  sport.Prix_offre,
-        Places_dispo: sport.Places_dispo,
-        SPORT_ID : sport.SPORT_ID, 
-        id : sport.id
+        Offre : "",
+        Place_offre:"",
+        Prix_offre: "",
+        Places_dispo:"",
+       
        
       
     });
  
-   
+    
  
 
    function handleChange(e){
       
         setupdate((prev)=> ({...prev,[e.target.name]:e.target.value})
     )
-    
+    console.log(update)
     };
     
     const requestOptions1 = { method: 'PATCH', mode: "cors", cache: "no-cache", credentials: "include", headers: { "Content-Type": "application/json", 'Access-Control-Allow-Origin': '*' }, redirect: "follow", referrerPolicy: "no-referrer", body: JSON.stringify(update) }; 
@@ -82,7 +81,7 @@ function handleClickSport(e){
     async function handleClick (e){
         e.preventDefault()
         
-          
+        console.log(update.Place_offre)
     try{
        const result = await fetch(`http://localhost:3000/update/${sport.id}`,requestOptions1)
        console.log(result)
@@ -123,7 +122,7 @@ function handleClickSport(e){
         <div className="flex-block">
         <label>
         
-            <input type={hidden} className="input"  onChange={handleChange} name="Offre" placeholder={sport.Offre} required=""/>
+            <input type={hidden} className="input"   onChange={handleChange} name="Offre" placeholder={sport.Offre} required=""/>
             <span>Nom de l'offre</span>
           
         </label>
@@ -134,7 +133,7 @@ function handleClickSport(e){
         </label>
 
         <label>
-            <input type={hidden} className="input"  onChange={handleChange} name="Places_dispo" placeholder={sport.Places_dispo} required=""/>
+            <input type={hidden} className="input"   onChange={handleChange} name="Places_dispo" placeholder={sport.Places_dispo} required=""/>
             <span>Places Disponibles</span>
             
         </label>

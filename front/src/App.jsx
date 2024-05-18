@@ -52,7 +52,7 @@ function App(){
 
                      </Route>
 
-                    <Route path="/admin" element={ <Admin/>}>
+                    <Route path="/admin" element={ <RequireAuth><Admin/></RequireAuth>}>
                     <Route path="ajouter" element={<Ajouter/>}/>
                     <Route path="visuel" element={<OffreVisuel/>}/>
                     <Route path="supprimer" element={<Supprimer/>}/>
