@@ -5,14 +5,14 @@ import Sidebar from "../composants/sidebar";
 import { getTotalPrice,getTickets } from "../composants/gestionpanier";
 import Boutton from "../composants/bouton";
 import { useNavigate} from "react-router-dom";
+import {loadStripe} from "@stripe/stripe-js";
 
-
-export default function Ebillet(){
+export default function PanierValider(){
 
     const [ticket,setTicket]=useState([])
     const [prix,setPrix]=useState([])
     const [panierHeader,setPanierHeader]=useState("Verifiez votre panier, puis passez au payement.")
-    const navigate= useNavigate()
+    
    
     function headPanier(){
       if(ticket.length){
@@ -28,9 +28,23 @@ export default function Ebillet(){
         setPrix(getTotalPrice())
     }
 
-    function handleClick(){
+   async function makePayement(){
+
+const stripe = await loadStripe("pk_test_51PHkaLP2tu9ynZbpin2TBN7BYHzEVgP3hHxvveOoMYg1wi8Y6MSqJYKl1NzwQ0I2X77CBzpsYFJaFiZeF8eH7mxu00A5gU3DKn");
+const body = {
+    product : ticket
+}
+const requestOptions = { method: 'POST', mode: "cors", cache: "no-cache", credentials: "include", headers: { "Content-Type": "application/json", 'Access-Control-Allow-Origin': '*' }, redirect: "follow", referrerPolicy: "no-referrer", body: JSON.stringify(body) };
+
+const response =await fetch ("http://localhost:3000/create-checkout-session",requestOptions)
+
+const session = await response.json();
+
+const result = stripe.redirectToCheckout({sessionId:session.id})
+
+if(result.error){console.log(result.error);}
+
        
-        navigate("/compte/PanierValider")
     }
     useEffect(()=>{ 
        panier()
@@ -83,7 +97,7 @@ export default function Ebillet(){
                     <tfoot>
                         <tr >
                             <th className="tfooter"  scope="row">Proceder au payement</th>
-                            <td><Boutton click={handleClick} btn={"Payer"}/></td>
+                            <td><Boutton click={makePayement} btn={"Payer"}/></td>
                             <th className="tfooter" colSpan="2" scope="row">Totals</th>
                             <td>{prix} €</td>
                           

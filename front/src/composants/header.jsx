@@ -14,6 +14,7 @@ function Nav(props){
   const auth = useAuth()
   const handleLogout = () => {
     auth.logout()
+    localStorage.removeItem('token')
     navigate('/')
   }
   

@@ -20,16 +20,19 @@ import Update from "./Pages/admin/Update";
     /* The following line can be included in your src/index.js or App.js file */
   }
   import 'bootstrap/dist/css/bootstrap.min.css';
-import { Login } from "./composants/login";
+
 import { RequireAuth } from "./composants/requireAuth"
 
 import { Nav } from "./composants/header";
-  
+import PanierValider from "./Pages/paniervalider"
+import Sucess from "./Pages/sucess";
+import Cancel from "./Pages/cancel";
+
 
  
 
 function App(){
-
+   
     return(
         
        <AuthProvider>
@@ -48,7 +51,9 @@ function App(){
                      <Route path="/compte" element={<RequireAuth><Compte/></RequireAuth>}>
                          <Route path="utilisateur" element={<Utilisateur/>}/>
                         <Route path="ebillet" element={<Ebillet/>}/>
-                        <Route path="panier" element={<Panier/>}/>
+                        <Route path="paniervalider" element={<PanierValider/>}/>
+                        <Route path="sucess" element={<Sucess/>}/>
+                        <Route path="cancel" element={<Cancel/>}/>
 
                      </Route>
 
@@ -57,6 +62,7 @@ function App(){
                     <Route path="visuel" element={<OffreVisuel/>}/>
                     <Route path="supprimer" element={<Supprimer/>}/>
                     <Route path="modifier" element={<Update/>}/>
+                    
                     </Route>
 
                                  { /*test et autre*/}

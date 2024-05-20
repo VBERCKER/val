@@ -12,9 +12,13 @@
   "dependencies": {
     "@headlessui/react": "^1.7.18",
     "@headlessui/vue": "^1.7.19",
+    "@stripe/react-stripe-js": "^2.7.1",
+    "@stripe/stripe-js": "^3.4.0",
+    "@stripe/stripe-react-native": "^0.37.3",
     "animate.css": "^4.1.1",
     "axios": "^1.6.8",
     "bootstrap": "^5.3.3",
+    "jwt-decode": "^4.0.0",
     "mysqlconnector": "^2.0.6",
     "react": "^18.2.0",
     "react-bootstrap": "^2.10.2",

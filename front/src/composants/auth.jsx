@@ -11,7 +11,7 @@ export const AuthProvider = ({ children }) => {
     setUser(user)
    
   }
-
+ 
   const logout = () => {
     setUser(null)
   }

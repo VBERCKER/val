@@ -8,6 +8,7 @@ import { useAuth } from './auth';
 import * as yup from 'yup';
 import {userprenom,usernom,usermail,userpwd} from './validationForm';
 import { setCookie } from "./cookies";
+import { accountService } from "./auth1/servicetoken"
 
 
 
@@ -196,7 +197,7 @@ function LogIN (){
     });
     const [erreur,setErreur]= useState("");
 
-    const handleChange =(e)=>{
+    const handleChange =(e)=>{ 
         setlogin((prev)=> ({...prev,[e.target.name]:e.target.value}))
         
     };
@@ -216,6 +217,8 @@ function LogIN (){
         console.log(response); 
         if(response[0].name =='Autorisation' && response[1].user.role === 'user' )
         {  
+            accountService.saveToken(response[2].access_token)
+            console.log(response[2].access_token)
                 auth.login(login)
                             setCookie('user',response[1].user.id,2)
                         
@@ -229,12 +232,30 @@ function LogIN (){
         navigate(redirectPathAdmin, { replace: true })
 
 
-    }
-    
-    
-    else {setErreur(response)} 
+    }  else {setErreur(response)} 
  }catch(error){console.log(error)} }
    
+ //token 
+async function token1(){
+
+const token = localStorage.getItem('token')
+
+    try{ const requestOptions = { method: 'POST', mode: "cors", cache: "no-cache", credentials: "include", headers: {'Authorization':`Bearer ${token}` }, redirect: "follow", referrerPolicy: "no-referrer"};
+        
+    const result= await fetch('http://localhost:3000/token', requestOptions); 
+    const response = await result.json();
+    console.log(response); 
+    if(response === "ok")
+    {  
+            auth.login(login)
+            navigate(redirectPath, { replace: true })
+   
+   } 
+
+   }catch(error){console.log(error)} }
+    
+
+  token1()
  
   
   return(
