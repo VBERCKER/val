@@ -2,10 +2,8 @@ import express from "express";
 import bodyParser from "body-parser";
 import mysql from "mysql2";
 import cors from "cors"; 
-//crypter et token
 import bcrypt from 'bcrypt'; 
 import jwt from 'jsonwebtoken';
-//session
 import session from "express-session";
 import passport from "passport"; 
 import {Strategy} from "passport-local"; 
@@ -22,13 +20,15 @@ const stripe = new Stripe(process.env.STRIPE_KEY);
 
 const app=express();
 
-// conexion bd 
+// conexion basse de donée *************************************
 const db = mysql.createConnection({
     host: process.env.DB_HOST,
     user : process.env.DB_USER,
     password : process.env.DB_PASS,
     database : process.env.DB_TABLE
 })
+
+// Cors ******************************
 const whitelist = ['http://localhost:3000','http://localhost:5173',"https://dashboard.stripe.com/test/events/evt_3PIZTAP2tu9ynZbp1rWwZT0X" /** other domains if any */ ]
  const corsOptions = { 
     credentials: true, 
@@ -47,14 +47,14 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended:false}))
 app.use(cors(corsOptions))
 
-//session 
+
+//session ********************************************
 app.use(session({
-    secret : "TROPSECRETWORD",   // permet de securiser la session 
-    resave: false, // enrgistrement de la session dans la bd meme si serveur redemarer ou autre la session persiste
-    saveUninitialized : true, // save une session dans la store 
+    secret : process.env.COKIES_SECRET,   
+    resave: false, 
+    saveUninitialized : true, 
     cookie:{ secure : false,
-        maxAge : 1000 * 60 * 60 * 24,    //temps en miliseconde expiration cookies 
-        //httpOnly : true,
+        maxAge : 1000 * 60 * 60 * 24,    
     }
 
 }))
@@ -63,20 +63,19 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 //******************************* */
-//mildeleware JWT
+
+//mildeleware JWT ********************************************
 const extractBearer = authorization => {
 
     if(typeof authorization !== 'string'){
         return false
     }
 
-    // On isole le token
     const matches = authorization.match(/(bearer)\s+(\S+)/i)
 
     return matches && matches[2]
 
 }
-/******************************************/
 /*** Vérification de la présence du token */
 const verifyToken = (req, res, next) => {
 
@@ -93,14 +92,13 @@ const verifyToken = (req, res, next) => {
     }
 
 }
+//******************************************** */
 
 
 
 
-
-/// autorisation d'accès 
-app.get('/autorisation', (req,res)=>{ // a lier avec les pages back souvegarde un cookio 
-
+/// autorisation d'accès pages protéges *********************************************
+app.get('/autorisation', (req,res)=>{ 
     if(req.isAuthenticated()){
 
         const token = jwt.sign({
@@ -119,7 +117,7 @@ app.get('/autorisation', (req,res)=>{ // a lier avec les pages back souvegarde u
     
 })
 
-// reste connexion
+// test de connexion back *************************
 app.get("/", (_,res)=>{
 
     return res.send({msg:"hello le back"});
@@ -140,7 +138,7 @@ app.get("/users/:id",(req,res )=>{
     
 })
 
-// ajout utilisateur 
+// ajout utilisateur ***********************************************
 app.post("/add", async(req,res)=>{
     var cles =Math.floor(Math.random()*1000000);
     const pwd = req.body.pwd; 
@@ -168,11 +166,9 @@ app.post("/add", async(req,res)=>{
 
 
 
-// ajout offres
+// ajout offres ***************************************************
 app.post("/addoffres", async(req,res)=>{
    
-   
-
     const add= "INSERT INTO Offre(Offre,Place_offre,Prix_offre,Places_dispo,SPORT_ID) VALUES(?) ";
     const values=[
         req.body.Offre,
@@ -187,6 +183,7 @@ app.post("/addoffres", async(req,res)=>{
         return res.json("Offre ajoutée");
     })
 })
+/*****Login ***************************************** */
 
 //login par token 
 
@@ -200,8 +197,7 @@ app.post('/token',verifyToken,async(req,res)=>{
 })
 
 
-
-//login 
+//login identfiant
 
 app.post("/connexion",
     passport.authenticate("local",{ 
@@ -211,41 +207,65 @@ app.post("/connexion",
 
 }))
 
-// route autorisation 
-
-app.get("/valider", (req,res)=>{
-
- 
-    return res.redirect("/autorisation");
-   
-})
-
+// route login non autorisaté ************
 app.get("/nonautorisation", (_,res)=>{
 
     return res.json("Email ou mots de passe incorect");
 })
 
-// token pas encore utiisé
-app.get("/jwt",(req,res)=>{
 
-    const createTokenFromJson = (jsonData, option ={})=>{
+// midleware passport 
+passport.use(new Strategy(async function verify(username,password,cb){ // doit matcher avec lo from 
+    console.log(username);
+    
+    const connexion = "SELECT * FROM utilisateur WHERE mail =(?) ";
+    
         try{
-                const secretKey = "test" // cles a crypter et complexifier 
-                const token = jwt.sign(jsonData, secretKey,option )
-                return token 
+              db.query(connexion,[username],async (err,data)=>{
+    
+                if(data.length>0){   //verif email 
+                    const user =data[0];
+                    const bdPwd =user.pwd;
+                  
+                   bcrypt.compare(password, bdPwd ,(err, result)=>{
+                    console.log(result) /// verif pwd et conecté 
+                        if(err){
+                          return cb(err)
+                        }else{
+                            if(result){
+                                
+                              return cb(null, user );   //va permettre d'accceer aux info uti avce req.user plus tard
+    
+    
+                            } else{
+                                return cb(null, false);
+                            }
+                        }
+                });
+                }else{return cb("Utilisateur non trouvé")
+    
+            }})
+        
+            }catch(err){return cb(err);}
+    }));
+    
 
+// passport 
 
-        }catch(err){console.log("err:", err.message)
-        return null
-    } }
-    const jsonData =({email :"valou" , pwd : "ert"}) /// les datas a recup 
-    const token = createTokenFromJson(jsonData); 
+passport.serializeUser((user, cb)=>{  //stocker les donne utilisateur en local 
+    cb(null,user); 
+    
+    });
+    
+    passport.deserializeUser((user, cb)=>{  //a veerif les donnees utilisateur en local 
+        cb(null,user); 
+        
+        });
+    
 
-   
+/*************Pages offres billeteries *********************** */
+// voir les offres / sports pages offres/billeteries **********************************
 
-})
-
-// offre 
 app.get("/sport",(req,res)=>{
 
     const offre = "SELECT * FROM Sport ";
@@ -258,6 +278,7 @@ app.get("/sport",(req,res)=>{
     })
 
 })
+
 app.get("/offre",(req,res)=>{
 
     const offre = "SELECT * from Sport JOIN Offre ON Sport.id = SPORT_ID";
@@ -271,7 +292,9 @@ app.get("/offre",(req,res)=>{
 
 })
 
-//voir les offre admin  sport 
+/*********Pages administrateur */
+
+//voir les offre admin  sport ******************************
 app.get("/offreadminall",(req,res)=>{
     
     const sport = "SELECT id, Sport from Sport ";
@@ -284,7 +307,8 @@ app.get("/offreadminall",(req,res)=>{
     })
 
 })
-//voir les offre admin par sport 
+
+//voir les offre admin par sport ****************************
 app.get("/offreadminfilter/:id",(req,res)=>{
     const id = parseInt(req.params.id)
     const sport = "SELECT Offre.id,Sport,Offre,Place_offre,Prix_offre,Places_dispo,SPORT_ID from Sport JOIN Offre ON Sport.id = SPORT_ID WHERE SPORT_ID=(?)";
@@ -298,7 +322,7 @@ app.get("/offreadminfilter/:id",(req,res)=>{
 
 })
 
-//selectioner une offre à modifier 
+//selectioner une offre à modifier *************************
 app.get("/offreadmin/:id",(req,res)=>{
     const id = parseInt(req.params.id)
     const sport = "SELECT Offre.id,Sport,Offre,Place_offre,Prix_offre,Places_dispo,SPORT_ID from Sport JOIN Offre ON Sport.id = SPORT_ID WHERE Offre.id=(?)";
@@ -312,7 +336,8 @@ app.get("/offreadmin/:id",(req,res)=>{
     })
 
 })
-//Update une offre 
+
+//Update une offre ******************************************
 
 app.patch("/update/:id",(req,res)=>{
 const id = parseInt(req.params.id)
@@ -348,7 +373,7 @@ db.query(update3,[id],async (err,data)=>{
 })
 })
 
-//delette offre
+//delette offre *******************************************************
 
 app.delete("/offreadmindelete/:id",(req,res)=>{
     const id = parseInt(req.params.id)
@@ -367,61 +392,12 @@ app.delete("/offreadmindelete/:id",(req,res)=>{
     })
 
 
-// verifier la connesion pour la session on copie cole le bloc de connexion //plus besoin de req.boby 
-passport.use(new Strategy(async function verify(username,password,cb){ // doit matcher avec lo from 
-console.log(username);
-
-const connexion = "SELECT * FROM utilisateur WHERE mail =(?) ";
-
-    try{
-          db.query(connexion,[username],async (err,data)=>{
-
-            if(data.length>0){   //verif email 
-                const user =data[0];
-                const bdPwd =user.pwd;
-              
-               bcrypt.compare(password, bdPwd ,(err, result)=>{
-                console.log(result) /// verif pwd et conecté 
-                    if(err){
-                      return cb(err)
-                    }else{
-                        if(result){
-                            
-                          return cb(null, user );   //va permettre d'accceer aux info uti avce req.user plus tard
-
-
-                        } else{
-                            return cb(null, false);
-                        }
-                    }
-            });
-            }else{return cb("Utilisateur non trouvé")
-
-        }})
-    
-        }catch(err){return cb(err);}
-}));
-
-// passport token 
-const opts = {jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(), secretOrKey:process.env.JWT_SECRET};
-
-passport.use(new strategi(opts,function (jwt_playload,done){
-
-    const connexion = "SELECT * FROM utilisateur WHERE mail =(?) ";
-
-    try{
-        db.query(connexion,[jwt_playload],async(err,data)=>{
-        console.log(data)
-        if(data.length>0){return done(null,user)}else{return (null,false);}
-
-        })
-    }catch(err){return cb(err);}
-
-}))
 
 
 
-// payement silulation 
+/**STRIPE *************************** */
+
+// payement modetest
 
 app.post("/create-checkout-session",async(req,res)=>{
 
@@ -441,15 +417,23 @@ const lineItems =product.map((product)=>({
     quantity: product.quantity,
     
 }));
+const session = await stripe.checkout.sessions.create({
+    customer_email: 'valentin.bercker@gmail.com',
+    payment_method_types:["card"],
+    line_items : lineItems,
+    mode:"payment",
+    success_url:"http://localhost:5173/compte/sucess", 
+    cancel_url:"http://localhost:5173/compte/cancel", 
+})
+res.json({id:session.id})
+})
+
+//stripe vers la bd *******************************
 
 
-//stripe vers la bd 
 
 
-
-
-// This is your Stripe CLI webhook secret for testing your endpoint locally.
-const endpointSecret = "whsec_7952173a58af1838269545d0fe863256e673ace51c15014d1b4fa42a87b21e7c";
+const endpointSecret = process.env.STRIPE_ENDPOINTSECRET;
 
 app.post('/webhook', express.raw({type: 'application/json'}), (request, response) => {
   const sig = request.headers['stripe-signature'];
@@ -482,33 +466,5 @@ app.post('/webhook', express.raw({type: 'application/json'}), (request, response
 
 
 
-const session = await stripe.checkout.sessions.create({
-    customer_email: 'valentin.bercker@gmail.com',
-    payment_method_types:["card"],
-    line_items : lineItems,
-    mode:"payment",
-    success_url:"http://localhost:5173/compte/sucess", 
-    cancel_url:"http://localhost:5173/compte/cancel", 
-})
-res.json({id:session.id})
-})
-
-
-
-
-
-
-// passport 
-
-passport.serializeUser((user, cb)=>{  //stocker les donne utilisateur en local 
-cb(null,user); 
-
-});
-
-passport.deserializeUser((user, cb)=>{  //a veerif les donnees utilisateur en local 
-    cb(null,user); 
-    
-    });
-
 // express 
-app.listen(process.env.SERVER_PORT,()=>{console.log("serveur fonctionne")});
+app.listen(process.env.SERVER_PORT,()=>{console.log(`serveur fonctionne sur le port ${process.env.SERVER_PORT}`)});
