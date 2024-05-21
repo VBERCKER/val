@@ -6,13 +6,19 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import session from "express-session";
 import passport from "passport"; 
-import {Strategy} from "passport-local"; 
-import flash from 'express-session'
+import {passportUse} from "./midleware/passport.js"
 
-import cookieParser from "cookie-parser";
+
+
 import Stripe from 'stripe';
-import {Strategy as strategi} from "passport-jwt";
-import { ExtractJwt } from "passport-jwt";
+
+
+import 'dotenv/config'
+import {sequelize } from './config/db.config.js'
+import { verifyToken } from "./midleware/token.js";
+
+import {router as user_router} from "./Routes/userRoute.js"
+
 
 
 
@@ -25,11 +31,11 @@ const db = mysql.createConnection({
     host: process.env.DB_HOST,
     user : process.env.DB_USER,
     password : process.env.DB_PASS,
-    database : process.env.DB_TABLE
+    database : process.env.DB_DATABASE
 })
 
 // Cors ******************************
-const whitelist = ['http://localhost:3000','http://localhost:5173',"https://dashboard.stripe.com/test/events/evt_3PIZTAP2tu9ynZbp1rWwZT0X" /** other domains if any */ ]
+const whitelist = ['http://localhost:3000','http://localhost:5173',"http://app.forestadmin.com", "https://app.forestadmin.com" /** other domains if any */ ]
  const corsOptions = { 
     credentials: true, 
     origin: function(origin, callback) { 
@@ -64,36 +70,6 @@ app.use(passport.session());
 
 //******************************* */
 
-//mildeleware JWT ********************************************
-const extractBearer = authorization => {
-
-    if(typeof authorization !== 'string'){
-        return false
-    }
-
-    const matches = authorization.match(/(bearer)\s+(\S+)/i)
-
-    return matches && matches[2]
-
-}
-/*** Vérification de la présence du token */
-const verifyToken = (req, res, next) => {
-
-    const token = req.headers.authorization && extractBearer(req.headers.authorization)
-    let decodedToken = jwt.decode(token)
-
-    if(!token){
-        return res.status(401).json({ message: 'Ho le petit malin !!!'})
-    }
-    if(token){
-        req.user = decodedToken
-        
-        next()
-    }
-
-}
-//******************************************** */
-
 
 
 
@@ -118,10 +94,10 @@ app.get('/autorisation', (req,res)=>{
 })
 
 // test de connexion back *************************
-app.get("/", (_,res)=>{
+app.use("/test", user_router)
 
-    return res.send({msg:"hello le back"});
-})
+
+
 
 //test 2
 app.get("/users/:id",(req,res )=>{
@@ -189,9 +165,7 @@ app.post("/addoffres", async(req,res)=>{
 
 app.post('/token',verifyToken,async(req,res)=>{
     if(req.user){
-      
         res.json('ok')
-        
     }
     else res.json('non o')
 })
@@ -200,11 +174,9 @@ app.post('/token',verifyToken,async(req,res)=>{
 //login identfiant
 
 app.post("/connexion",
-    passport.authenticate("local",{ 
+    passportUse.authenticate("local",{ 
     successRedirect : "/autorisation",
     failureRedirect : "/nonautorisation", 
-    
-
 }))
 
 // route login non autorisaté ************
@@ -214,54 +186,6 @@ app.get("/nonautorisation", (_,res)=>{
 })
 
 
-// midleware passport 
-passport.use(new Strategy(async function verify(username,password,cb){ // doit matcher avec lo from 
-    console.log(username);
-    
-    const connexion = "SELECT * FROM utilisateur WHERE mail =(?) ";
-    
-        try{
-              db.query(connexion,[username],async (err,data)=>{
-    
-                if(data.length>0){   //verif email 
-                    const user =data[0];
-                    const bdPwd =user.pwd;
-                  
-                   bcrypt.compare(password, bdPwd ,(err, result)=>{
-                    console.log(result) /// verif pwd et conecté 
-                        if(err){
-                          return cb(err)
-                        }else{
-                            if(result){
-                                
-                              return cb(null, user );   //va permettre d'accceer aux info uti avce req.user plus tard
-    
-    
-                            } else{
-                                return cb(null, false);
-                            }
-                        }
-                });
-                }else{return cb("Utilisateur non trouvé")
-    
-            }})
-        
-            }catch(err){return cb(err);}
-    }));
-    
-
-// passport 
-
-passport.serializeUser((user, cb)=>{  //stocker les donne utilisateur en local 
-    cb(null,user); 
-    
-    });
-    
-    passport.deserializeUser((user, cb)=>{  //a veerif les donnees utilisateur en local 
-        cb(null,user); 
-        
-        });
-    
 
 /*************Pages offres billeteries *********************** */
 // voir les offres / sports pages offres/billeteries **********************************
@@ -451,7 +375,7 @@ app.post('/webhook', express.raw({type: 'application/json'}), (request, response
   switch (event.type) {
     case 'payment_intent.succeeded':
       const paymentIntentSucceeded = event.data.object;
-      // Then define and call a function to handle the event payment_intent.succeeded
+      console.log("ok")      // Then define and call a function to handle the event payment_intent.succeeded
       break;
     // ... handle other event types
     default:
@@ -463,8 +387,13 @@ app.post('/webhook', express.raw({type: 'application/json'}), (request, response
 });
 
 
+/*******Satrt Serveur  */
 
-
-
+sequelize.authenticate()
+    .then(()=>console.log('connection à la base de donnée ok '))
+    .then(()=>{
+        app.listen(process.env.SERVER_PORT,()=>{console.log(`Le serveur fonctionne sur le port ${process.env.SERVER_PORT}`)});
+    })
+    .catch(err=>console.log('erreur sur la base de donnée', err))
 // express 
-app.listen(process.env.SERVER_PORT,()=>{console.log(`serveur fonctionne sur le port ${process.env.SERVER_PORT}`)});
+

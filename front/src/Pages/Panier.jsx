@@ -2,7 +2,7 @@ import React,{useState,useEffect} from "react";
 import { Nav1 } from "../composants/header";
 import Footer from "../composants/footer";
 import Sidebar from "../composants/sidebar";
-import { getTotalPrice,getTickets } from "../composants/gestionpanier";
+import { getTotalPrice,getTickets,remove,changeQuantity } from "../composants/gestionpanier";
 import Boutton from "../composants/bouton";
 import { useNavigate} from "react-router-dom";
 
@@ -64,6 +64,7 @@ export default function Ebillet(){
                         <th scope="col">Offre</th>
                         <th scope="col">Places</th>
                         <th scope="col">Prix</th>
+                        <th scope="col">Supprimer</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -72,8 +73,9 @@ export default function Ebillet(){
                                       <th  scope="row"><img className="panier-img" src={items.image}/></th>
                                       <td >{items.sport}</td>
                                    <td >{items.offre}</td>
-                                      <td >{items.quantity}</td>
+                                      <td ><input value={items.quantity}></input></td>
                                       <td >{items.prix} €</td>
+                                      <td ><Boutton  btn={"Delete"}/></td>
                         </tr>
                           
                         

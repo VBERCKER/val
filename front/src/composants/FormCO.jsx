@@ -257,6 +257,18 @@ const token = localStorage.getItem('token')
 
   token1()
  
+  async function test2(){
+
+    try{ const requestOptionst = { method: 'GET', mode: "cors", cache: "no-cache", credentials: "include", headers: {'Authorization':`Bearer ${token}` }, redirect: "follow", referrerPolicy: "no-referrer"};
+    const result= await fetch('http://localhost:3000/test/1', requestOptionst); 
+    const response = await result.json();
+    console.log(response); 
+    
+
+   }catch(error){console.log(error)} }
+
+  
+  test2()
   
   return(
     <div>

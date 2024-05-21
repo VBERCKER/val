@@ -1,0 +1,62 @@
+
+import passport from "passport"; 
+import {Strategy} from "passport-local"; 
+import mysql from "mysql2";
+import bcrypt from 'bcrypt'; 
+
+
+// conexion basse de donée *************************************
+const db = mysql.createConnection({
+    host: process.env.DB_HOST,
+    user : process.env.DB_USER,
+    password : process.env.DB_PASS,
+    database : process.env.DB_DATABASE
+})
+// midleware passport 
+ export const passportUse = passport.use(new Strategy(async function verify(username,password,cb){ // doit matcher avec lo from 
+    console.log(username);
+    
+    const connexion = "SELECT * FROM utilisateur WHERE mail =(?) ";
+    
+        try{
+              db.query(connexion,[username],async (err,data)=>{
+    
+                if(data.length>0){   //verif email 
+                    const user =data[0];
+                    const bdPwd =user.pwd;
+                  
+                   bcrypt.compare(password, bdPwd ,(err, result)=>{
+                    console.log(result) /// verif pwd et conecté 
+                        if(err){
+                          return cb(err)
+                        }else{
+                            if(result){
+                                
+                              return cb(null, user );   //va permettre d'accceer aux info uti avce req.user plus tard
+    
+    
+                            } else{
+                                return cb(null, false);
+                            }
+                        }
+                });
+                }else{return cb("Utilisateur non trouvé")
+    
+            }})
+        
+            }catch(err){return cb(err);}
+    }));
+    
+
+// passport 
+
+passport.serializeUser((user, cb)=>{  //stocker les donne utilisateur en local 
+    cb(null,user); 
+    
+    });
+    
+    passport.deserializeUser((user, cb)=>{  //a veerif les donnees utilisateur en local 
+        cb(null,user); 
+        
+        });
+    
