@@ -13,13 +13,17 @@ export default function Ebillet(){
     const [prix,setPrix]=useState([])
     const [panierHeader,setPanierHeader]=useState("Verifiez votre panier, puis passez au payement.")
     const navigate= useNavigate()
+    const [change,setChange]=useState("")
    
     function headPanier(){
       if(ticket.length){
         setPanierHeader("Votre panier est vide.")
       }
     }
-
+    
+    function handleChange(e){
+        setChange(e.target.value)
+    }
     function panier(){
         const localstorage = getTickets()
         setTicket(localstorage); 
@@ -72,10 +76,10 @@ export default function Ebillet(){
                         <tr key={items.id}>
                                       <th  scope="row"><img className="panier-img" src={items.image}/></th>
                                       <td >{items.sport}</td>
-                                   <td >{items.offre}</td>
-                                      <td ><input value={items.quantity}></input></td>
+                                    <td >{items.offre}</td>
+                                      <td > <input name={items.id} onChange={handleChange} value={change} placeholder={items.quantity}/><button onClick={()=>{changeQuantity(2,15);document.location.reload(false)}}>modifier</button></td>
                                       <td >{items.prix} €</td>
-                                      <td ><Boutton  btn={"Delete"}/></td>
+                                      <td ><button onClick={()=>{remove(items);document.location.reload(false)}}>supprimer</button></td>
                         </tr>
                           
                         
@@ -86,7 +90,7 @@ export default function Ebillet(){
                         <tr >
                             <th className="tfooter"  scope="row">Proceder au payement</th>
                             <td><Boutton click={handleClick} btn={"Payer"}/></td>
-                            <th className="tfooter" colSpan="2" scope="row">Totals</th>
+                            <th className="tfooter" colSpan="3" scope="row">Totals</th>
                             <td>{prix} €</td>
                           
                         </tr>

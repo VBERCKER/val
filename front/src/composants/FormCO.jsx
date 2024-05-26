@@ -9,6 +9,8 @@ import * as yup from 'yup';
 import {userprenom,usernom,usermail,userpwd} from './validationForm';
 import { setCookie } from "./cookies";
 import { accountService } from "./auth1/servicetoken"
+import { jwtDecode } from "jwt-decode";
+import Boutton from "./bouton";
 
 
 
@@ -174,7 +176,7 @@ function LogIN (){
     const location = useLocation()
     const auth = useAuth() 
     const redirectPath = location.state?.path || '/compte'
-    const redirectPathAdmin = location.state?.path || '/admin'
+    const redirectPathAdmin = '/admin'
 
     const handleClick = async e=>{
         e.preventDefault()
@@ -184,49 +186,79 @@ function LogIN (){
         const result= await fetch('http://localhost:3000/connexion', requestOptions); 
         const response = await result.json();
         console.log(response); 
-        if(response[0].name =='Autorisation' && response[1].user.role === 'user' )
+
+
+        if(response[0].name =='Autorisation' && response[1].user.role === 'false' )
+            { 
+                accountService.saveToken(response[2].access_token)
+                console.log(response[1].user.role)
+                auth.login(login)
+                setCookie('user',response[1].user.id,2)
+    
+                navigate(redirectPath, { replace: true })
+        }else 
+        if(response[0].name =='Autorisation' && response[1].user.role === 'true' )
         {  
-            accountService.saveToken(response[2].access_token)
+            accountService.saveTokenAdmin(response[2].access_token)
             console.log(response[2].access_token)
                 auth.login(login)
-                            setCookie('user',response[1].user.id,2)
+                            setCookie('admin',response[1].user.id,2)
                         
-                            navigate(redirectPath, { replace: true })
-      
-    } else if(response[0].name =='Autorisation' && response[1].user.role === 'admin'){
-
-        auth.login(login)
-        setCookie('admin',response[1].user.id,1)
-    
-        navigate(redirectPathAdmin, { replace: true })
-
+                            navigate(redirectPathAdmin, { replace: true })
 
     }  else {setErreur(response)} 
  }catch(error){console.log(error)} }
    
  //token 
+ 
 async function token1(){
 
-const token = localStorage.getItem('token')
-
+    const token = localStorage.getItem('token');
+    const tokenadmin = localStorage.getItem('admin');
+  /*  const result = token ? tokenValid(token) : false ; 
+    console.log(result)
+   if(false===result){accountService.logout }else{return result}; */
     try{ const requestOptions = { method: 'POST', mode: "cors", cache: "no-cache", credentials: "include", headers: {'Authorization':`Bearer ${token}` }, redirect: "follow", referrerPolicy: "no-referrer"};
         
     const result= await fetch('http://localhost:3000/token', requestOptions); 
     const response = await result.json();
     console.log(response); 
-    if(response === "ok")
-    {  
-            auth.login(login)
-            navigate(redirectPath, { replace: true })
-   
-   } 
+    if(token){
 
-   }catch(error){console.log(error)} }
+        if(response === "ok")
+            {  
+                    auth.login(login)
+                    navigate(redirectPath, { replace: true })
+           
+           }
+
+        
+    }else if(tokenadmin){
+        {  
+            auth.login(login)
+            navigate(redirectPathAdmin, { replace: true })
+   
+   }
+
+    }
+   
+
+   }catch(error){console.log(error)} 
+
+/*
+  function tokenValid(token){
+       const {exp}=jwtDecode(token);
+       if(exp*1000> new Date().getTime()){return true;}return false;
+  }
+   
+*/
+
+}
     
 
   token1()
- /*
-  async function test2(e){
+ 
+  /*async function test2(e){
     e.preventDefault()
 
     try{ const requestOptionst = { method: 'GET', mode: "cors", cache: "no-cache", credentials: "include", headers: {'Authorization':`Bearer ${token}` }, redirect: "follow", referrerPolicy: "no-referrer"};
@@ -238,23 +270,31 @@ const token = localStorage.getItem('token')
    }catch(error){console.log(error)} }
 
   
-  test2()
-  */
+  test2()*/
+  /***GOOGLE  */
+  const Google = async e=>{
+    e.preventDefault()
+ 
+    try{ const requestOptions = { method: 'GET', mode: "cors", cache: "no-cache", credentials: "include", headers: { "Content-Type": "application/json", 'Access-Control-Allow-Origin': '*' }, redirect: "follow", referrerPolicy: "no-referrer" };
+    
+    const result= await fetch('http://localhost:3000/auth/google', requestOptions); 
+    const response = await result.json();
+    console.log(response); 
 
-  async function handleclickgoogle (){
 
-    try{
-        const requestOptionst = { method: 'GET', mode: "cors", cache: "no-cache", credentials: "include", headers: {"Content-Type": "application/json", 'Access-Control-Allow-Origin': '*' }, redirect: "follow", referrerPolicy: "no-referrer"};
+    if(response[0].name =='Autorisation'  && response[1].user.role === 'false')
+        { 
+            accountService.saveToken(response[2].access_token)
+            console.log(response[1].user.role)
+            auth.login(login)
+            setCookie('user',response[1].user.id,2)
 
-        const result= await fetch('http://localhost:3000/auth/google',requestOptionst); 
-        console.log(result)
-       
-        
-
-    }catch(error){console.log(error)} }
+            navigate(redirectPath, { replace: true })
+    }else  {setErreur(response)} 
+}catch(error){console.log(error)} }
 
   
-  
+  /********* */
   return(
     <div>
     <form action="compte" method="post">
@@ -265,11 +305,11 @@ const token = localStorage.getItem('token')
   <Buton click={handleClick} btn={"Se connecter"}/>
   <a href="#">Mots de passe oublié ?</a>
   <hr/>
-<Buton lien={"/register"} btn={"Créer un nouveau compte"}/>
+
 <div className="col-sm-12">
         <div className="card">
           <div className="card-body">
-         
+         <Boutton click={Google} btn={"test"}/>
           <a class="btn btn-block" href="http://localhost:3000/auth/google" role="button">
               <i class="fab fa-google"></i>
               Sign In with Google

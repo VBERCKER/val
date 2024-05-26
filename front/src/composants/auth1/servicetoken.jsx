@@ -18,6 +18,10 @@ let saveToken = (token) => {
     localStorage.setItem('token', token)
 }
 
+let saveTokenAdmin = (token) => {
+    localStorage.setItem('admin', token)
+}
+
 /**
  * Suppression du token du localStorage
  */
@@ -52,5 +56,5 @@ let getTokenInfo = () => {
 
 // Déclaration des serivces pour import
 export const accountService = {
-    login, saveToken, logout, isLogged, getToken, getTokenInfo
+    login, saveToken, logout, isLogged, getToken, getTokenInfo,saveTokenAdmin
 }

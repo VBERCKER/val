@@ -14,7 +14,7 @@ import {passportUse,passportG} from "./midleware/passport.js"
 import Stripe from 'stripe';
 
 
-import 'dotenv/config'
+import env from "dotenv"
 import {sequelize } from './config/db.config.js'
 import { verifyToken } from "./midleware/token.js";
 
@@ -37,7 +37,7 @@ const db = mysql.createConnection({
 })
 
 // Cors ******************************
-const whitelist = ['http://localhost:3000','http://localhost:5173',"https://accounts.google.com","https://checkout.stripe.com/" /** other domains if any */ ]
+const whitelist = ['http://localhost:3000','http://localhost:5173',"https://accounts.google.com","https://checkout.stripe.com/"  /** other domains if any */ ]
  const corsOptions = { 
     credentials: true, 
     origin: function(origin, callback) { 
@@ -87,7 +87,7 @@ app.get('/autorisation', (req,res)=>{
         const token = jwt.sign({
             id : req.user.id,
             mail : req.user.mail
-        }, process.env.JWT_SECRET,{expiresIn: process.env.JWT_DURING}
+        }, process.env.JWT_SECRET,{ expiresIn: "2H"}
         )
             res.json([{name:'Autorisation'},{user : req.user},{access_token: token}])
         
@@ -126,7 +126,7 @@ app.post("/add", async(req,res)=>{
     var cles =Math.floor(Math.random()*1000000);
     const pwd = req.body.pwd; 
     const passHash = await bcrypt.hash(pwd,10)
-    const role = "user"
+    const role = "false"
 
     const add= "INSERT INTO utilisateur(nom,prenom,nom_utilisateur,mail,pwd,cles_utilisateur,role) VALUES(?) ";
     const values=[
@@ -198,7 +198,7 @@ app.post('/token',verifyToken,async(req,res)=>{
 //login identfiant
 
 app.post("/connexion",
-    passport.authenticate("local",{ 
+    passportUse.authenticate("local",{ 
     successRedirect : "/autorisation",
     failureRedirect : "/nonautorisation", 
 }))
@@ -213,12 +213,12 @@ app.get("/nonautorisation", (_,res)=>{
 
 /**connexion Google  */
 
-app.get("/auth/google", passport.authenticate("google",{
+app.get("/auth/google", passportG.authenticate("google",{
     scope:["profile", "email"],
 }))
 
 app.get("/auth/google/autorisation",
-    passport.authenticate("google",{ 
+    passportG.authenticate("google",{ 
     successRedirect : "/autorisation",
     failureRedirect : "/nonautorisation", 
 }))

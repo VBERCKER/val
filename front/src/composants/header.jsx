@@ -15,6 +15,7 @@ function Nav(props){
   const handleLogout = () => {
     auth.logout()
     localStorage.removeItem('token')
+    localStorage.removeItem('admin')
     navigate('/')
   }
   

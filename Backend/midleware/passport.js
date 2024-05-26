@@ -81,7 +81,7 @@ export const passportG = passport.use("google", new GoogleStrategy({
            profile.email,
             "google",
            profile.id,
-           "user"
+           "false"
        
        ]
 

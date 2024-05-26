@@ -88,6 +88,7 @@ if(result.error){console.log(result.error);}
                         <th scope="col">Offre</th>
                         <th scope="col">Places</th>
                         <th scope="col">Prix</th>
+                       
                         </tr>
                     </thead>
                     <tbody>
@@ -96,8 +97,9 @@ if(result.error){console.log(result.error);}
                                       <th  scope="row"><img className="panier-img" src={items.image}/></th>
                                       <td >{items.sport}</td>
                                    <td >{items.offre}</td>
-                                      <td >{items.quantity}</td>
+                                      <td >{items.quantity} </td>
                                       <td >{items.prix} €</td>
+                                      
                         </tr>
                           
                         
@@ -106,9 +108,11 @@ if(result.error){console.log(result.error);}
                     </tbody>
                     <tfoot>
                         <tr >
-                            <th className="tfooter"  scope="row">Proceder au payement</th>
+                            <th className="tfooter"  scope="row">Procéder au payement</th>
+                            
+                            <td><Boutton lien="/panier" btn={"modifier"}/></td>
                             <td><Boutton click={makePayement} btn={"Payer"}/></td>
-                            <th className="tfooter" colSpan="2" scope="row">Totals</th>
+                            <th className="tfooter" colSpan="1" scope="row">Totals</th>
                             <td>{prix} €</td>
                           
                         </tr>

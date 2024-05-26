@@ -46,7 +46,7 @@ import { setCookie,getCookie } from "../composants/cookies";
         
         <Sidebar  lienTItre2={"ebillet"} lienTItre3={"paniervalider"} lienTItre1={"utilisateur"} lienmenuP={"/compte"} menuP={"Menu principal"} menuTitre1={"Mes informations utilisateur"} menuTitre2={"Mes E-billets"}  menuTitre3={"Mon panier"}  titrem={"Mon compte"} content={  <div className="container text-center">
     <h1>Bienvenue {user}</h1>
-    <p> Selectionnez une option dans le menu por commencez. </p>
+    <p> Selectionnez une option dans le menu pour commencer. </p>
 
     
         </div>} />
