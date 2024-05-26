@@ -6,14 +6,19 @@ import { getTotalPrice,getTickets } from "../composants/gestionpanier";
 import Boutton from "../composants/bouton";
 import { useNavigate} from "react-router-dom";
 import {loadStripe} from "@stripe/stripe-js";
+import { getCookie } from "../composants/cookies";
+
 
 export default function PanierValider(){
 
     const [ticket,setTicket]=useState([])
+  
     const [prix,setPrix]=useState([])
     const [panierHeader,setPanierHeader]=useState("Verifiez votre panier, puis passez au payement.")
     
-   
+    
+    const cookie= getCookie('user')
+  
     function headPanier(){
       if(ticket.length){
         setPanierHeader("Votre panier est vide.")
@@ -23,20 +28,25 @@ export default function PanierValider(){
     function panier(){
         const localstorage = getTickets()
         setTicket(localstorage); 
+        
+        
     }
     function prixTotal(){
         setPrix(getTotalPrice())
     }
 
    async function makePayement(){
-
+    
 const stripe = await loadStripe("pk_test_51PHkaLP2tu9ynZbpin2TBN7BYHzEVgP3hHxvveOoMYg1wi8Y6MSqJYKl1NzwQ0I2X77CBzpsYFJaFiZeF8eH7mxu00A5gU3DKn");
 const body = {
-    product : ticket
+    product : ticket,
+   
 }
+console.log(body)
+
 const requestOptions = { method: 'POST', mode: "cors", cache: "no-cache", credentials: "include", headers: { "Content-Type": "application/json", 'Access-Control-Allow-Origin': '*' }, redirect: "follow", referrerPolicy: "no-referrer", body: JSON.stringify(body) };
 
-const response =await fetch ("http://localhost:3000/create-checkout-session",requestOptions)
+const response =await fetch (`http://localhost:3000/create-checkout-session/${cookie}`,requestOptions)
 
 const session = await response.json();
 

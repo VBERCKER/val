@@ -20,11 +20,12 @@ function Sidebar(props){
   <h3 className="w3-bar-item">Menu</h3>
   <nav>
  
-  <div><Link to={props.lienmenuP}> {props.menuP}</Link></div>
- <div><Link to={props.lienTItre1}>{props.menuTitre1} </Link></div>
- <div><Link to={props.lienTItre2}>{props.menuTitre2}</Link></div>
- <div><Link to={props.lienTItre3}>{props.menuTitre3}</Link></div>
- <div><p>selectionner une option pour ajouter, modifier,supprimer une offre </p></div>
+  <div style={{margin : "30px" ,fontSize:"20px" }}><Link to={props.lienmenuP}> {props.menuP}</Link></div>
+ <div style={{margin : "30px" ,fontSize:"20px"}}><Link to={props.lienTItre1}>{props.menuTitre1} </Link></div>
+ <div style={{margin : "30px" ,fontSize:"20px"}}><Link to={props.lienTItre2}>{props.menuTitre2}</Link></div>
+ <div style={{margin : "30px" ,fontSize:"20px"}}><Link to={props.lienTItre3}>{props.menuTitre3}</Link></div>
+ 
+
 
   </nav>
  

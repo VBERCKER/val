@@ -1,7 +1,16 @@
 
 //local storage du panier ON peut enregister des donner sous forme de string 
-
-
+function saveuser(user){
+    localStorage.setItem('user',JSON.stringify(user)) //transforme un object en chaine de caract 
+    }
+    function getuser(){
+        let user = localStorage.getItem("user");
+         if(user==null){
+             return [];
+         }else{
+             return JSON.parse(user); //transformer la chaine en object
+         } 
+     }
 function saveTickets(tickets){
 localStorage.setItem('tickets',JSON.stringify(tickets)) //transforme un object en chaine de caract 
 }
@@ -78,4 +87,4 @@ function getTotalPrice(){
     return total;
 }
 
-export{saveTickets,getNumberTickerts,getTickets,addTickets,remove,changeQuantity,getTotalPrice}
+export{saveTickets,getNumberTickerts,getTickets,addTickets,remove,changeQuantity,getTotalPrice,saveuser,getuser}

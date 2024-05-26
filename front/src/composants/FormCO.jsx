@@ -153,38 +153,7 @@ const navigate= useNavigate();
     </div>
   )
 }
-function FormUtI(){
-  return(
-    <div>
-<form className="form">
-    <p className="title">Mofier vos informations </p>
-    <Buton btn={"Mofidier"}/>
-        <div className="flex">
-        <label>
-            <input className="input" type="text" placeholder="" required=""/>
-            <span>Prénom </span>
-        </label>
 
-        <label>
-            <input className="input" type="text" placeholder="" required=""/>
-            <span>Nom</span>
-        </label>
-    </div>  
-        
-    <label>
-        <input className="input" type="password" placeholder="" required=""/>
-        <span>Mots de passe</span>
-    </label>
-    <label>
-        <input className="input" type="password" placeholder="" required=""/>
-        <span>Confirmer le mots de passe</span>
-    </label>
-    <Buton btn={"Valider les modifications"}/>
-    
-</form>
-    </div>
-  )
-}
 
 
 function LogIN (){
@@ -256,8 +225,9 @@ const token = localStorage.getItem('token')
     
 
   token1()
- 
-  async function test2(){
+ /*
+  async function test2(e){
+    e.preventDefault()
 
     try{ const requestOptionst = { method: 'GET', mode: "cors", cache: "no-cache", credentials: "include", headers: {'Authorization':`Bearer ${token}` }, redirect: "follow", referrerPolicy: "no-referrer"};
     const result= await fetch('http://localhost:3000/test/1', requestOptionst); 
@@ -269,6 +239,21 @@ const token = localStorage.getItem('token')
 
   
   test2()
+  */
+
+  async function handleclickgoogle (){
+
+    try{
+        const requestOptionst = { method: 'GET', mode: "cors", cache: "no-cache", credentials: "include", headers: {"Content-Type": "application/json", 'Access-Control-Allow-Origin': '*' }, redirect: "follow", referrerPolicy: "no-referrer"};
+
+        const result= await fetch('http://localhost:3000/auth/google',requestOptionst); 
+        console.log(result)
+       
+        
+
+    }catch(error){console.log(error)} }
+
+  
   
   return(
     <div>
@@ -281,12 +266,26 @@ const token = localStorage.getItem('token')
   <a href="#">Mots de passe oublié ?</a>
   <hr/>
 <Buton lien={"/register"} btn={"Créer un nouveau compte"}/>
+<div className="col-sm-12">
+        <div className="card">
+          <div className="card-body">
+         
+          <a class="btn btn-block" href="http://localhost:3000/auth/google" role="button">
+              <i class="fab fa-google"></i>
+              Sign In with Google
+            </a>
+            
+          </div>
+        </div>
+      </div>
 </form>
     
+
+   
     </div>
   )
 }
 
 
 
-export {FormRE, LogIN, FormUtI}; 
+export {FormRE, LogIN}; 

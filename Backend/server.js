@@ -6,7 +6,8 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import session from "express-session";
 import passport from "passport"; 
-import {passportUse} from "./midleware/passport.js"
+import {passportUse,passportG} from "./midleware/passport.js"
+
 
 
 
@@ -16,6 +17,7 @@ import Stripe from 'stripe';
 import 'dotenv/config'
 import {sequelize } from './config/db.config.js'
 import { verifyToken } from "./midleware/token.js";
+
 
 import {router as user_router} from "./Routes/userRoute.js"
 
@@ -35,20 +37,24 @@ const db = mysql.createConnection({
 })
 
 // Cors ******************************
-const whitelist = ['http://localhost:3000','http://localhost:5173',"http://app.forestadmin.com", "https://app.forestadmin.com" /** other domains if any */ ]
+const whitelist = ['http://localhost:3000','http://localhost:5173',"https://accounts.google.com","https://checkout.stripe.com/" /** other domains if any */ ]
  const corsOptions = { 
     credentials: true, 
     origin: function(origin, callback) { 
-        if (whitelist.indexOf(origin) !== -1) 
+        if (whitelist.indexOf(origin) !== -1 ||!origin) 
         { callback(null, true) 
         } else {
              callback(new Error('Not allowed by CORS et oui ')) 
+             
             } 
-        }
+        } 
      } 
-     
-     
+
+    
+   
+ //app.use(express.urlencoded({limit:'30mb'}))    /// non non 
 app.use(express.json())
+app.use(bodyParser.json({verify:function(req,res,buf){req.rowBody =buf}}))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended:false}))
 app.use(cors(corsOptions))
@@ -75,6 +81,7 @@ app.use(passport.session());
 
 /// autorisation d'accès pages protéges *********************************************
 app.get('/autorisation', (req,res)=>{ 
+    
     if(req.isAuthenticated()){
 
         const token = jwt.sign({
@@ -139,7 +146,24 @@ app.post("/add", async(req,res)=>{
     })
 })
 
+//******* modifier mots de passe */
 
+app.patch("/pwd/:id",async (req,res)=>{
+
+ const id  = parseInt(req.params.id) ; 
+ const pwd = req.body.pwd; 
+ console.log(pwd)
+ const passHash = await bcrypt.hash(pwd,10)
+
+const update = `UPDATE JO24.utilisateur SET pwd=${passHash} WHERE id=(?)`
+
+db.query(update,[id],async (err,_)=>{
+    
+    if(err)return res.json(err);
+    return res.json('ok');
+    
+})
+})
 
 
 // ajout offres ***************************************************
@@ -174,10 +198,12 @@ app.post('/token',verifyToken,async(req,res)=>{
 //login identfiant
 
 app.post("/connexion",
-    passportUse.authenticate("local",{ 
+    passport.authenticate("local",{ 
     successRedirect : "/autorisation",
     failureRedirect : "/nonautorisation", 
 }))
+
+
 
 // route login non autorisaté ************
 app.get("/nonautorisation", (_,res)=>{
@@ -185,6 +211,17 @@ app.get("/nonautorisation", (_,res)=>{
     return res.json("Email ou mots de passe incorect");
 })
 
+/**connexion Google  */
+
+app.get("/auth/google", passport.authenticate("google",{
+    scope:["profile", "email"],
+}))
+
+app.get("/auth/google/autorisation",
+    passport.authenticate("google",{ 
+    successRedirect : "/autorisation",
+    failureRedirect : "/nonautorisation", 
+}))
 
 
 /*************Pages offres billeteries *********************** */
@@ -310,8 +347,7 @@ app.delete("/offreadmindelete/:id",(req,res)=>{
     db.query(supp,[id],async (err,data)=>{
         console.log(data)
         if(err)return res.json(err);
-        return res.json(data);
-        
+        return res.json(data);  
     })
     })
 
@@ -323,18 +359,43 @@ app.delete("/offreadmindelete/:id",(req,res)=>{
 
 // payement modetest
 
-app.post("/create-checkout-session",async(req,res)=>{
+app.post("/create-checkout-session/:id",async(req,res)=>{
 
-const {product} = req.body;
-console.log(product)
+    const id =parseInt(req.params.id)
+   
+
+    const userSQL = "SELECT id,nom,prenom,mail FROM utilisateur WHERE id=(?)";
+
+    db.query(userSQL,[id],async (err,data)=>{
+
+        const user = data[0];
+       
+     const {product} = req.body;
+
+
+     const customer = await stripe.customers.create({
+        metadata: {
+          useerId : user.id,
+          mail : user.mail
+          
+          
+        },
+      });
+      
+      console.log(user.mail)
 
 const lineItems =product.map((product)=>({
+
     price_data:{
         currency:"eur",
+        
+       
         product_data:{
-            name : product.sport,
+            
+            name : product.offre +" "+":"+" "+product.sport,
             description : "Vous avez selectionné l'offre : " + product.offre,
-            images : [encodeURI(product.image)]
+            images : [encodeURI(product.image)],
+           
         },
         unit_amount : Math.round(product.prix*100),
     },
@@ -342,49 +403,163 @@ const lineItems =product.map((product)=>({
     
 }));
 const session = await stripe.checkout.sessions.create({
-    customer_email: 'valentin.bercker@gmail.com',
+    customer_email: user.mail,
+    //customer : customer.id,
     payment_method_types:["card"],
     line_items : lineItems,
     mode:"payment",
-    success_url:"http://localhost:5173/compte/sucess", 
+    success_url:"http://localhost:5173/compte/sucess?session_id={CHECKOUT_SESSION_ID}", 
     cancel_url:"http://localhost:5173/compte/cancel", 
 })
+
+
 res.json({id:session.id})
+
+
+
+
+    })
+
+
+
+
+
 })
 
+
+  
+
+  
 //stripe vers la bd *******************************
+const endpointSecret = "whsec_7952173a58af1838269545d0fe863256e673ace51c15014d1b4fa42a87b21e7c";
+
+
+
+app.post('/webhook', bodyParser.raw({type: 'application/json'}), async (request, response) => {
+    const event = request.body;
+  
+    switch (event.type) {
+        case 'checkout.session.completed':
+            const session= event.data.object;
+
+            stripe.checkout.sessions.listLineItems(session.id,(err,lineItems)=>{
+                if(err){console.log("erreur de recup")}else{
+                    
+                    lineItems.data.forEach(async (item)=>{
+                        const productDescription = item.description;
+                        const cles_achat = item.quantity;
+                        const quantity= item.quantity
+                        const product = productDescription.split(":")
+                        const offre = product[0]
+                        const sport = product[1]
+                        const email = session.customer_email
+                        var now = new Date();
+                        var annee   = now.getFullYear();
+                        var mois    = now.getMonth() + 1;
+                        var jour    = now.getDate();
+                        var heure   = now.getHours();
+                        var minute  = now.getMinutes();
+                        var seconde = now.getSeconds();
+
+                        var date = `${jour}/${mois}/${annee}`;
+                        var heureNow= `${heure}:${minute}:${seconde}`;
+
+
+                        const cles_utilisateur = "SELECT cles_utilisateur,nom,prenom FROM utilisateur WHERE mail=(?)"
+
+                        db.query(cles_utilisateur,[email],async (err,data)=>{
+
+                            if(err){console.log(err)}else{ 
+
+                                        const cles_QR = jwt.sign({
+                                            nom : data.nom,
+                                            prenom : data.prenom,
+                                            cles_achat: cles_achat,
+                                            cles_utilisateur : data.cles_utilisateur
+                                        }, process.env.JWT_SECRET
+                                    )
+
+
+                        for(var i=0; i< quantity; i++){
+
+                            const productData=[
+                                 email,
+                                 offre,
+                                 sport,
+                                 quantity,
+                                 heureNow,
+                                date,
+                                cles_QR
+                                ]
+                            
+                            /**** */
+
+                                /*** */
+
+                            const sql = "INSERT INTO achat(user_mail,offre,sport,cles_achat,heure_achat,date,cles_QR) VALUES (?) "
+                        
+                            db.query(sql,[productData],async (err,data)=>{
+                                
+                                if(err){console.log(err)}else{console.log("✅ ticket enregistré !")}
+                            })
+                            
+
+                        }}
+                        
+                       
+
+                    })
+                }
+            )}})
+          // Then define and call a function to handle the event payment_intent.succeeded
+          break;
+        // ... handle other event types
+        default:
+          console.log(`Unhandled event type ${event.type}`);
+      }
+    
+    
+    // Return a 200 response to acknowledge receipt of the event
+    response.json({received: true});
+  });
+
+
+
+/***** ebilet */
+
+/***recupérer les information ebillets */
+app.get("/ebillet/:id",(req,res)=>{
+    const id = parseInt(req.params.id)
+
+
+    const user = "SELECT * FROM utilisateur WHERE id = (?)"
+
+    const tickets = "SELECT * FROM achat WHERE user_mail=(?)"
+    db.query(user,[id],async (err,data)=>{
+        console.log(data)
+        if(err){return res.json(err)}else{
+
+            db.query(tickets,[data[0].mail],async (err,billets)=>{
+
+                if(err){return res.json(err)}else{
+                    console.log(billets)
+                    return res.json(billets);  
+                    
+                }
+                
+
+            })
+        };
+        
+    })
+    })
 
 
 
 
-const endpointSecret = process.env.STRIPE_ENDPOINTSECRET;
 
-app.post('/webhook', express.raw({type: 'application/json'}), (request, response) => {
-  const sig = request.headers['stripe-signature'];
 
-  let event;
 
-  try {
-    event = stripe.webhooks.constructEvent(request.body, sig, endpointSecret);
-  } catch (err) {
-    response.status(400).send(`Webhook Error: ${err.message}`);
-    return;
-  }
-
-  // Handle the event
-  switch (event.type) {
-    case 'payment_intent.succeeded':
-      const paymentIntentSucceeded = event.data.object;
-      console.log("ok")      // Then define and call a function to handle the event payment_intent.succeeded
-      break;
-    // ... handle other event types
-    default:
-      console.log(`Unhandled event type ${event.type}`);
-  }
-
-  // Return a 200 response to acknowledge receipt of the event
-  response.send();
-});
 
 
 /*******Satrt Serveur  */

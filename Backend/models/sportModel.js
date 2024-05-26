@@ -6,7 +6,13 @@ import { sequelize } from '../config/db.config.js';
 
 export const Sport = sequelize.define('sport',{
 
-          sport: {
+          id:{
+            type: DataTypes.INTEGER,
+            primaryKey:true,
+            autoIncrement:true,
+            unique :true,
+              },        
+         sport: {
             type: DataTypes.STRING(50),
             allowNull: false
             

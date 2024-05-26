@@ -8,7 +8,8 @@ import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../composants/auth'
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { getCookie } from "../composants/cookies";
+import { setCookie,getCookie } from "../composants/cookies";
+
 
 
 
@@ -30,8 +31,10 @@ import { getCookie } from "../composants/cookies";
       } )
       .then((result)=>{const data =result
         
-        setuser(data[0].nom)
+        setuser(data[0].prenom)
+        console.log(data)
         
+
         }
     )
       .catch(err=>console.log(err));
@@ -42,7 +45,8 @@ import { getCookie } from "../composants/cookies";
     return (<div>
         
         <Sidebar  lienTItre2={"ebillet"} lienTItre3={"paniervalider"} lienTItre1={"utilisateur"} lienmenuP={"/compte"} menuP={"Menu principal"} menuTitre1={"Mes informations utilisateur"} menuTitre2={"Mes E-billets"}  menuTitre3={"Mon panier"}  titrem={"Mon compte"} content={  <div className="container text-center">
-    <h2>Bienvenue {user}</h2>
+    <h1>Bienvenue {user}</h1>
+    <p> Selectionnez une option dans le menu por commencez. </p>
 
     
         </div>} />

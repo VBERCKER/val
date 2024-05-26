@@ -6,6 +6,13 @@ import { sequelize } from '../config/db.config.js';
 
 export const User = sequelize.define('user',{
 
+          id:{
+              type: DataTypes.INTEGER,
+              primaryKey:true,
+              autoIncrement:true,
+              unique :true,
+          },
+
           nom: {
             type: DataTypes.STRING(50),
             allowNull: false

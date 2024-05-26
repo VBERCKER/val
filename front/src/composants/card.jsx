@@ -3,7 +3,7 @@ import Button from "./bouton";
 import { Link } from "react-router-dom";
 import { setCookie,getCookie } from "./cookies";
 import { saveTickets,addTickets,getTickets } from "./gestionpanier";
-
+import BoiteDialogue from "../composants/boite_dialogue_qrCode"; 
 
 
 function Carte (props){
@@ -107,7 +107,7 @@ function CardEbillet(props){
     <div >
         <p className="card1__title">{props.titre}</p>
         
-        <Button btn={"Qr-code"}/>
+       <BoiteDialogue  title={props.title} content={props.content}/>
       </div>
 </div>
   )

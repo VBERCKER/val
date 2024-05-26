@@ -6,6 +6,13 @@ import { sequelize } from '../config/db.config.js';
 
 export const Offre = sequelize.define('offre',{
 
+           id:{
+                type: DataTypes.INTEGER,
+                primaryKey:true,
+                autoIncrement:true,
+                unique :true,
+                },
+
           offre: {
             type: DataTypes.STRING(25),
             allowNull: false

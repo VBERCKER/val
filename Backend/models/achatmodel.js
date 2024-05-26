@@ -6,6 +6,16 @@ import { sequelize } from '../config/db.config.js';
 
 export const Achat = sequelize.define('achat',{
 
+
+
+          id:{
+            type: DataTypes.INTEGER,
+            primaryKey:true,
+            autoIncrement:true,
+            unique :true,
+            },
+
+
           offre: {
             type: DataTypes.STRING(50),
             allowNull: false

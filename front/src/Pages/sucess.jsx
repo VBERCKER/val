@@ -4,15 +4,14 @@ import Footer from "../composants/footer";
 import {Link} from "react-router-dom";
 
 
+
+
 export default function Sucess(){
 
-   
-      
-      
-   
     return(<div className="panier">
              
              <div className="my-5">
+             
                  <div className="p-5 text-center bg-body-tertiary">
                     <div className="container py-5">
                     <div ><svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-check2-circle" viewBox="0 0 16 16">
