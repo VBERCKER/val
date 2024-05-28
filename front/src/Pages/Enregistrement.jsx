@@ -9,14 +9,14 @@ import Footer from "../composants/footer";
 
 
 function Enregistrement(){
-    return (<div>
+    return (<div className="page">
     
     <div className="formRE">
     <FormRE/> 
     </div>
          
     
-         
+    <Footer/>  
     </div>
       
     )}

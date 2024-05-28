@@ -8,7 +8,10 @@ import {Link} from "react-router-dom";
 
 export default function Sucess(){
 
-  
+  function removepanier(){
+    localStorage.removeItem("tickets")
+  }
+  removepanier(); 
 
     return(<div className="panier">
              

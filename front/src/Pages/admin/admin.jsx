@@ -55,11 +55,11 @@ function handleSport(e){
 
     
   return (
-    <div >
+    <div className='page' >
     
-    <Sidebar  lienTItre2={"modifier"}  lienTItre3={"supprimer"} lienTItre1={"ajouter"} lienmenuP={"/admin"} menuP={"Home"} menuTitre1={"Ajouter une offre"} menuTitre2={"Modifier une offre"}  menuTitre3={"Supprimer une offre"}  titrem={"Compte admin"} content={  <div className="container text-center">
+    <Sidebar  lienTItre2={"modifier"}  lienTItre3={"supprimer"} lienTItre4={"vente"} lienTItre1={"ajouter"} lienmenuP={"/admin"} menuP={"Home"} menuTitre1={"Ajouter une offre"} menuTitre4={" Les ventes"} menuTitre2={"Modifier une offre"}  menuTitre3={"Supprimer une offre"}  titrem={"Compte admin"} content={  <div className="container text-center">
     <h2>Compte administrateur </h2>
-    <p>Selectionner une option dans le menu latéral de gauche pour : Ajouter, supprimer et modifier une offre. </p>
+    <p>Selectionner une option dans le menu latéral de gauche pour : Ajouter, supprimer , modifier une offre et voir les ventes. </p>
     <form style={{width:"100%"}}>
     <div >
     <label for="sport" style={{fontSize:"20px"}}>sport:</label>

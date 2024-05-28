@@ -1,5 +1,6 @@
 import React from 'react';
 import { NavLink,Link, Outlet } from 'react-router-dom';
+import Footer from './footer';
 
 
 
@@ -24,6 +25,7 @@ function Sidebar(props){
  <div style={{margin : "30px" ,fontSize:"20px"}}><Link to={props.lienTItre1}>{props.menuTitre1} </Link></div>
  <div style={{margin : "30px" ,fontSize:"20px"}}><Link to={props.lienTItre2}>{props.menuTitre2}</Link></div>
  <div style={{margin : "30px" ,fontSize:"20px"}}><Link to={props.lienTItre3}>{props.menuTitre3}</Link></div>
+ <div style={{margin : "30px" ,fontSize:"20px"}}><Link to={props.lienTItre4}>{props.menuTitre4}</Link></div>
  
 
 
@@ -42,6 +44,7 @@ function Sidebar(props){
 </div>
 <div>
 {props.content} 
+
 </div>
 <div className="w3-container contente-menu ">
 <Outlet/>
@@ -50,7 +53,7 @@ function Sidebar(props){
 </div>
    
 </div>
-
+<Footer/>
     </div> 
   )
 }

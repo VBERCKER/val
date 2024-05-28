@@ -14,20 +14,28 @@ export default function Ebillet(){
     const [panierHeader,setPanierHeader]=useState("Verifiez votre panier, puis passez au payement.")
     const navigate= useNavigate()
     const [change,setChange]=useState("")
+   var paniertaille =ticket.length
    
-    function headPanier(){
-      if(ticket.length){
-        setPanierHeader("Votre panier est vide.")
-      }
-    }
-    
-    function handleChange(e){
-        setChange(e.target.value)
-    }
+
     function panier(){
         const localstorage = getTickets()
         setTicket(localstorage); 
     }
+
+    function headPanier(){
+       
+      if(paniertaille ){
+       
+        setPanierHeader("Votre panier est vide.")
+      }
+    }
+   
+
+    function handleChange(e){
+        console.log(change)
+        setChange(e.target.value)
+    }
+  
     function prixTotal(){
         setPrix(getTotalPrice())
     }
@@ -43,10 +51,12 @@ export default function Ebillet(){
       
        
        },[])
-      
+
+     
+   
       
    
-    return(<div className="panier">
+    return(<div className="page">
              
              <div className="my-5">
                  <div className="p-5 text-center bg-body-tertiary">
@@ -77,7 +87,8 @@ export default function Ebillet(){
                                       <th  scope="row"><img className="panier-img" src={items.image}/></th>
                                       <td >{items.sport}</td>
                                     <td >{items.offre}</td>
-                                      <td > <input name={items.id} onChange={handleChange} value={change} placeholder={items.quantity}/><button onClick={()=>{changeQuantity(2,15);document.location.reload(false)}}>modifier</button></td>
+                                    <td >{items.quantity}</td>
+                                      
                                       <td >{items.prix} €</td>
                                       <td ><button onClick={()=>{remove(items);document.location.reload(false)}}>supprimer</button></td>
                         </tr>
@@ -94,10 +105,11 @@ export default function Ebillet(){
                             <td>{prix} €</td>
                           
                         </tr>
+                        
                     </tfoot>
                     </table>
-                
+                   
             </div>
-                <Footer/>
+                
             </div>)
 };

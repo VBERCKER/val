@@ -20,7 +20,7 @@ export default function PanierValider(){
     const cookie= getCookie('user')
   
     function headPanier(){
-      if(ticket.length){
+      if(ticket.length==0){
         setPanierHeader("Votre panier est vide.")
       }
     }
@@ -66,7 +66,7 @@ if(result.error){console.log(result.error);}
       
       
    
-    return(<div className="panier">
+    return(<div >
              
              <div className="my-5">
                  <div className="p-5 text-center bg-body-tertiary">
@@ -79,7 +79,7 @@ if(result.error){console.log(result.error);}
                  </div>
              </div>
                
-            <div >
+            <div  >
                                 <table className="table">
                     <thead>
                         <tr>
@@ -120,6 +120,6 @@ if(result.error){console.log(result.error);}
                     </table>
                 
             </div>
-                <Footer/>
+              
             </div>)
 };

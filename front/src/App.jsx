@@ -27,6 +27,8 @@ import { Nav } from "./composants/header";
 import PanierValider from "./Pages/paniervalider"
 import Sucess from "./Pages/sucess";
 import Cancel from "./Pages/cancel";
+import Pwd from "./Pages/pwdOublie"
+import Vente from "./Pages/admin/vente";
 
 
  
@@ -45,6 +47,7 @@ function App(){
                 <Route path="/connexion" element={<Connexion/>}/>
                 <Route path="/register" element={<Enregistrement/>}/>
                 <Route path="/panier" element={<Panier/>}/>
+                <Route path="/pwd" element={<Pwd/>}/>
 
                                 { /*route protégées*/}
                                 
@@ -62,6 +65,7 @@ function App(){
                     <Route path="visuel" element={<OffreVisuel/>}/>
                     <Route path="supprimer" element={<Supprimer/>}/>
                     <Route path="modifier" element={<Update/>}/>
+                    <Route path="vente" element={<Vente/>}/>
                     
                     </Route>
 

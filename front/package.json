@@ -18,6 +18,7 @@
     "animate.css": "^4.1.1",
     "axios": "^1.6.8",
     "bootstrap": "^5.3.3",
+    "dotenv": "^16.4.5",
     "jwt-decode": "^4.0.0",
     "mysqlconnector": "^2.0.6",
     "qr-image": "^3.2.0",

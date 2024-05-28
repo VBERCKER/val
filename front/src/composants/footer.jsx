@@ -20,11 +20,11 @@ function Footer(){
     <div className="col mb-3">
       <h5>Section</h5>
       <ul className="nav flex-column">
-        <li className="nav-item mb-2"><a href="#" className="nav-link p-0 text-body-secondary">Home</a></li>
-        <li className="nav-item mb-2"><a href="#" className="nav-link p-0 text-body-secondary">Features</a></li>
-        <li className="nav-item mb-2"><a href="#" className="nav-link p-0 text-body-secondary">Admin</a></li>
-        <li className="nav-item mb-2"><a href="#" className="nav-link p-0 text-body-secondary">FAQs</a></li>
-        <li className="nav-item mb-2"><a href="#" className="nav-link p-0 text-body-secondary">About</a></li>
+        <li className="nav-item mb-2"><a href="/" className="nav-link p-0 text-body-secondary">Home</a></li>
+        <li className="nav-item mb-2"><a href="/offre" className="nav-link p-0 text-body-secondary">billeterie</a></li>
+        <li className="nav-item mb-2"><a href="/login" className="nav-link p-0 text-body-secondary">Admin</a></li>
+        <li className="nav-item mb-2"><a href="/faq" className="nav-link p-0 text-body-secondary">FAQs / manuels</a></li>
+        
       </ul>
     </div>
 

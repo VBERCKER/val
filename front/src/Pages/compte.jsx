@@ -42,34 +42,16 @@ import { setCookie,getCookie } from "../composants/cookies";
   
 
 
-    return (<div>
+    return (<div className="page">
         
         <Sidebar  lienTItre2={"ebillet"} lienTItre3={"paniervalider"} lienTItre1={"utilisateur"} lienmenuP={"/compte"} menuP={"Menu principal"} menuTitre1={"Mes informations utilisateur"} menuTitre2={"Mes E-billets"}  menuTitre3={"Mon panier"}  titrem={"Mon compte"} content={  <div className="container text-center">
     <h1>Bienvenue {user}</h1>
     <p> Selectionnez une option dans le menu pour commencer. </p>
+     </div>} />
 
-    
-        </div>} />
-
-       
-        
-  
-    
       </div>)}
 
 
 export default Compte;
 
 
-/*
- <div className="container text-center">
-  <div className="row g-5 ">
-   <div className="col "><CardCompte link={"utilisateur"} titre={"Mes informations utilisateurs"}/> </div>
-    <div className="col"><CardCompte link={"ebillet"}  titre={"Mes E-billets"}/> </div>
-    <div className="col"><CardCompte link={"panier"} titre={"Mon panier"}/> </div>
-    <div className="col"><CardCompte link={"offre"} titre={"Billetrerie"}/> </div>
-
-    </div>
-    </div>
-
-*/ 

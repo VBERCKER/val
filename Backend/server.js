@@ -6,15 +6,15 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import session from "express-session";
 import passport from "passport"; 
-import {passportUse,passportG} from "./midleware/passport.js"
+import {passportUse} from "./midleware/passport.js"
 
 
 
 
 import Stripe from 'stripe';
 
-
 import env from "dotenv"
+env.config();
 import {sequelize } from './config/db.config.js'
 import { verifyToken } from "./midleware/token.js";
 
@@ -37,10 +37,12 @@ const db = mysql.createConnection({
 })
 
 // Cors ******************************
-const whitelist = ['http://localhost:3000','http://localhost:5173',"https://accounts.google.com","https://checkout.stripe.com/"  /** other domains if any */ ]
+const whitelist = ['http://localhost:3000','http://localhost:5173',"https://accounts.google.com/","https://checkout.stripe.com/" /** other domains if any */ ]
  const corsOptions = { 
     credentials: true, 
-    origin: function(origin, callback) { 
+    origin: true }
+    
+    /*function(origin, callback) { 
         if (whitelist.indexOf(origin) !== -1 ||!origin) 
         { callback(null, true) 
         } else {
@@ -49,7 +51,7 @@ const whitelist = ['http://localhost:3000','http://localhost:5173',"https://acco
             } 
         } 
      } 
-
+*/
     
    
  //app.use(express.urlencoded({limit:'30mb'}))    /// non non 
@@ -77,29 +79,6 @@ app.use(passport.session());
 //******************************* */
 
 
-
-
-/// autorisation d'accès pages protéges *********************************************
-app.get('/autorisation', (req,res)=>{ 
-    
-    if(req.isAuthenticated()){
-
-        const token = jwt.sign({
-            id : req.user.id,
-            mail : req.user.mail
-        }, process.env.JWT_SECRET,{ expiresIn: "2H"}
-        )
-            res.json([{name:'Autorisation'},{user : req.user},{access_token: token}])
-        
-      
-    }else {
-        res.json('NON')
-        
-    }
-
-    
-})
-
 // test de connexion back *************************
 app.use("/test", user_router)
 
@@ -123,12 +102,20 @@ app.get("/users/:id",(req,res )=>{
 
 // ajout utilisateur ***********************************************
 app.post("/add", async(req,res)=>{
-    var cles =Math.floor(Math.random()*1000000);
+
+
+    var randomNumber = function () {
+        return Math.floor((Math.random() * 999999) * 7);
+    }
+    var randomChar = function () {
+        return String.fromCharCode(64 + Math.floor((Math.random() * 26)+1));
+    }
+    const cles =randomChar()+randomChar()+randomNumber()+randomChar()+randomChar()+randomNumber();
     const pwd = req.body.pwd; 
     const passHash = await bcrypt.hash(pwd,10)
     const role = "false"
 
-    const add= "INSERT INTO utilisateur(nom,prenom,nom_utilisateur,mail,pwd,cles_utilisateur,role) VALUES(?) ";
+    const add= "INSERT INTO utilisateur(nom,prenom,nom_utilisateur,mail,pwd,cles_utilisateur,role,token) VALUES(?) ";
     const values=[
         req.body.nom,
         req.body.prenom,
@@ -136,7 +123,8 @@ app.post("/add", async(req,res)=>{
         req.body.mail,
         passHash,
         cles,
-        role
+        role,
+        1
 
     ];
    
@@ -203,7 +191,29 @@ app.post("/connexion",
     failureRedirect : "/nonautorisation", 
 }))
 
+/// autorisation d'accès pages protéges *********************************************
+app.get('/autorisation', (req,res)=>{ 
+    
+    if(req.isAuthenticated()){
+        
+        const id = req.user.id
+        const tokensign = jwt.sign({
+            id : req.user.id,
+            mail : req.user.mail
+        }, process.env.JWT_SECRET,{ expiresIn: process.env.JWT_DURING}
+        )
+      
+        const sql = `UPDATE utilisateur SET token = (?) WHERE id=${id}`
+        db.query(sql,[tokensign])
+        res.json([{name:'Autorisation'},{user : req.user},{access_token: tokensign}])
+       
+    }else {
+        res.json('NON')
+        
+    }
 
+    
+})
 
 // route login non autorisaté ************
 app.get("/nonautorisation", (_,res)=>{
@@ -213,16 +223,62 @@ app.get("/nonautorisation", (_,res)=>{
 
 /**connexion Google  */
 
-app.get("/auth/google", passportG.authenticate("google",{
-    scope:["profile", "email"],
-}))
+app.get("/auth/google", passport.authenticate("google", {
+      scope: ["profile", "email"],
+    })
+  );
 
-app.get("/auth/google/autorisation",
-    passportG.authenticate("google",{ 
-    successRedirect : "/autorisation",
-    failureRedirect : "/nonautorisation", 
-}))
+  app.get("/auth/google/autorisationgoogle", passport.authenticate("google", {
+      successRedirect: "/autorisationgoogle",
+      failureRedirect: "/login",
+    }))
 
+/// autorisation d'accès pages protéges *********************************************
+app.get('/autorisationgoogle', (req,res)=>{ 
+    
+    if(req.isAuthenticated()){
+        const id = req.user.id
+        const tokensign = jwt.sign({
+            id : req.user.id,
+            mail : req.user.mail
+        }, process.env.JWT_SECRET,{ expiresIn: process.env.JWT_DURING}
+        )
+        
+        const sql = `UPDATE utilisateur SET token = (?) WHERE id=${id}`
+        db.query(sql,[tokensign])
+        res.json([{name:'Autorisation'},{user : req.user},{access_token: tokensign}])
+       
+    }else {
+        res.json('NON')
+        
+    }
+
+    
+})
+
+/*** PWD oublié */
+/****cerif du mail */
+
+app.post("/pwd",(req,res)=>{
+
+console.log(req.body.email)
+    const email= req.body.email;
+
+    const sql= "SELECT mail FROM utilisateur WHERE mail = (?)"
+
+    db.query(sql, [email],(err,data)=>{
+      
+       if(data.length ===0){
+        return res.json("non")
+       }else if(data[0].mail === req.body.email){return res.json("ok")}else{res.json(err)}
+       
+       
+        
+    })
+
+   
+
+})
 
 /*************Pages offres billeteries *********************** */
 // voir les offres / sports pages offres/billeteries **********************************
@@ -266,6 +322,38 @@ app.get("/offreadminall",(req,res)=>{
         return res.json(data);
         
     })
+
+})
+
+/****les ventes */
+/**recuperer les offres */
+
+app.get("/offrevente",(req,res)=>{
+
+const offre ="SELECT DISTINCT Offre FROM Offre"
+
+db.query(offre, async(err,data)=>{
+    console.log(data)
+    if(err)return res.json(err);
+    return res.json(data);
+
+})
+})
+
+/** recuperer les ventes par offre */
+
+
+app.get("/offrevente/:id",(req,res)=>{
+const id = req.params.id;
+
+const sql = "SELECT SUM(cles_achat) AS TOTAL FROM achat WHERE offre=(?)"
+
+db.query(sql, [id],async(err,data)=>{
+    console.log(data)
+    if(err)return res.json(err);
+    return res.json(data);
+
+})
 
 })
 
@@ -408,22 +496,11 @@ const session = await stripe.checkout.sessions.create({
     payment_method_types:["card"],
     line_items : lineItems,
     mode:"payment",
-    success_url:"http://localhost:5173/compte/sucess?session_id={CHECKOUT_SESSION_ID}", 
-    cancel_url:"http://localhost:5173/compte/cancel", 
+    success_url: process.env.API_FRONT+"/compte/sucess?session_id={CHECKOUT_SESSION_ID}", 
+    cancel_url: process.env.API_FRONT+"/compte/cancel", 
 })
-
-
 res.json({id:session.id})
-
-
-
-
     })
-
-
-
-
-
 })
 
 
@@ -442,12 +519,20 @@ app.post('/webhook', bodyParser.raw({type: 'application/json'}), async (request,
         case 'checkout.session.completed':
             const session= event.data.object;
 
+            var randomNumber = function () {
+                return Math.floor((Math.random() * 999999) * 7);
+            }
+            var randomChar = function () {
+                return String.fromCharCode(64 + Math.floor((Math.random() * 26)+1));
+            }
+            const cles =randomChar()+randomChar()+randomNumber()+randomChar()+randomChar()+randomNumber();
+
             stripe.checkout.sessions.listLineItems(session.id,(err,lineItems)=>{
                 if(err){console.log("erreur de recup")}else{
                     
                     lineItems.data.forEach(async (item)=>{
                         const productDescription = item.description;
-                        const cles_achat = item.quantity;
+                        const cles_achat = cles;
                         const quantity= item.quantity
                         const product = productDescription.split(":")
                         const offre = product[0]
@@ -486,17 +571,18 @@ app.post('/webhook', bodyParser.raw({type: 'application/json'}), async (request,
                                  email,
                                  offre,
                                  sport,
-                                 quantity,
+                                 cles_achat,
                                  heureNow,
                                 date,
-                                cles_QR
+                                cles_QR,
+                                quantity
                                 ]
                             
                             /**** */
 
                                 /*** */
 
-                            const sql = "INSERT INTO achat(user_mail,offre,sport,cles_achat,heure_achat,date,cles_QR) VALUES (?) "
+                            const sql = "INSERT INTO achat(user_mail,offre,sport,cles_achat,heure_achat,date,cles_QR,quantity) VALUES (?) "
                         
                             db.query(sql,[productData],async (err,data)=>{
                                 

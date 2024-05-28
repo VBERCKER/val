@@ -5,8 +5,10 @@ import { saveTickets,addTickets,getTickets } from "./gestionpanier";
 
 
 
+
 //Grid 3 colonnes pour les offres pages offres 
 function OffreGrid (){
+
     const requestOptions = { method: 'GET', mode: "cors", cache: "no-cache", credentials: "include", headers: { "Content-Type": "application/json", 'Access-Control-Allow-Origin': '*' }, redirect: "follow", referrerPolicy: "no-referrer" };
      const [sport,setSport]=useState([])
      const [offre,setOffre]=useState([])

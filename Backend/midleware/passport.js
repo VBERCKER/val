@@ -4,7 +4,8 @@ import {Strategy} from "passport-local";
 import mysql from "mysql2";
 import bcrypt from 'bcrypt'; 
 import GoogleStrategy from "passport-google-oauth2";
-import 'dotenv/config'
+import env from "dotenv"
+env.config();
 
 
 // conexion basse de donée *************************************
@@ -20,6 +21,8 @@ const db = mysql.createConnection({
 
 
 // midleware passport 
+
+
  export const passportUse = passport.use("local",new Strategy(async function verify(username,password,cb){ // doit matcher avec lo from 
     console.log(username);
     
@@ -58,41 +61,37 @@ const db = mysql.createConnection({
 export const passportG = passport.use("google", new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT,
     clientSecret : process.env.GOOGLE_SECRET,
-    callbackURL: "http://localhost:3000/auth/google/autorisation",
+    callbackURL: "http://localhost:5173/compte",
     userProfileURL : "https://www.googleapi.com/oauth2/v3/userinfo",
 }, async (acessToken, refreshToken,profile,cb)=>{
     
-   console.log(profile)
+  console.log(profile)
 
    const result ="SELECT * FROM utilisateur WHERE mail =(?)";
-   const email =[profile.mail,];
+   const email =[profile.email,];
 
    try {
        
        db.query(result,[email],async (err,data)=>{
-   
-       if (result.length === 0) {
+        console.log(data.length + "result")
+       if (data.length === 0) {
 
-         const newUser ="INSERT INTO utilisateur (nom,prenom,nom_utilisateur,mail,pwd,cles_utilisateur,role) VALUES (?)";
+         const newUser ="INSERT INTO utilisateur (nom,prenom,nom_utilisateur,mail,pwd,cles_utilisateur,role,token) VALUES (?)";
           const user =  [
            profile.family_name,
-           given_name,
-           profile.family_name +'.'+given_name,
+           profile.given_name,
+           profile.family_name +'.'+ profile.given_name,
            profile.email,
             "google",
            profile.id,
-           "false"
-       
-       ]
-
-           db.query(newUser,[user], (err,data)=>{
-               if(err)return res.json(err);
-               return res.json("ok");}
-         )
+           "false",
+           1
+       ] 
+           db.query(newUser,[user])
 
           cb(null, newUser[0]);
        } else {
-         cb(null, result[0]);
+         cb(null, data[0]);
        }})
      } catch (err) {
        cb(err);

@@ -160,9 +160,10 @@ const handleInput =(e)=>{
   function click(e){
     e.preventDefault()
     addTickets(tickets)
-    console.log(getTickets())
+   
   }
 
+  
   return (
     <div>
     <form className="sport-form"  methode="post">

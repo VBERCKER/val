@@ -1,6 +1,7 @@
 import { Sequelize } from '@sequelize/core';
 import { MySqlDialect } from '@sequelize/mysql';
-import 'dotenv/config'
+import env from "dotenv"
+env.config();
 
 export const sequelize = new Sequelize({
   dialect: MySqlDialect,

@@ -52,6 +52,13 @@ height: 70vh;
   font-size: 50px;
 }
 
+/****all page*/
+.page{
+  height: 120vh;
+}
+.page1{
+  height: 100vh;
+}
 /* Page offre*/
 .headeroffre {
   height: 70vh;
@@ -242,7 +249,7 @@ background: linear-gradient(69deg, rgba(2,0,36,1) 0%, rgba(254,254,255,1) 43%, r
 }
 
 .button1 {
-  padding: 0.8em 1.8em;
+  padding: 0.7em 1em;
   border: 2px solid #ffd700;
   position: relative;
   overflow: hidden;
@@ -260,13 +267,13 @@ background: linear-gradient(69deg, rgba(2,0,36,1) 0%, rgba(254,254,255,1) 43%, r
  .button1::before {
   content: '';
   width: 0;
-  height: 300%;
+  height: 500%;
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%) rotate(45deg);
+  transform: translate(-50%, -50%) rotate(49deg);
   background: rgb(2,0,36);
-background: linear-gradient(69deg, rgba(2,0,36,1) 0%, rgba(254,254,255,1) 43%, rgba(255,215,0,1) 100%);
+  background: linear-gradient(69deg, rgba(2,0,36,1) 0%, rgba(254,254,255,1) 43%, rgba(255,215,0,1) 100%);
   transition: .5s ease;
   display: block;
   z-index: -1;
@@ -1147,4 +1154,12 @@ form .create-account:hover {
 .sucessSVG{
   width: 50px;
   height: 50px;
+}
+
+/***page pwd **/
+.pwd{
+ 
+  display: flex;
+  justify-content: center;
+  
 }

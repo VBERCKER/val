@@ -121,36 +121,36 @@ const navigate= useNavigate();
     <p className="message">Enregister-vous maintenant et achtez vos places ! </p>
         <div className="flex">
         <label>
-            <input className="input"  name="prenom" onChange={handleChange} type="text" placeholder="" required=""/>
+            <input className="input"  name="prenom" onChange={handleChange} type="text"  />
             <span>Prénom  </span>
             <span style={{color:"red"}}>{prenom}</span>
         </label>
 
         <label>
-            <input className="input" name="nom" onChange={handleChange} type="text" placeholder="" required=""/>
+            <input className="input" name="nom" onChange={handleChange} type="text"  />
             <span>Nom</span>
             <span style={{color:"red"}}>{nom}</span>
         </label>
     </div>  
             
     <label>
-        <input className="input"  type="email" onChange={handleChange} name="mail" placeholder="" required=""/>
+        <input className="input"  type="email" onChange={handleChange} name="mail"  />
         <span>Email </span>
         <span style={{color:"red"}}>{mail}</span>
     </label> 
         
     <label>
-        <input className="input" type="password" onChange={handleChange} name="pwd" placeholder="" required=""/>
+        <input className="input" type="password" onChange={handleChange} name="pwd" placeholder=" 8 caractères minimum" />
         <span>Mots de passe</span>
         <span style={{color:"red"}}>{pwd}</span>
     </label>
     <label>
-        <input className="input" type="password" onChange={handleChange} name='confirmpwd' placeholder="" required=""/>
+        <input className="input" type="password" onChange={handleChange} name='confirmpwd'  />
         <span>Confirmer le mots de passe</span>
         <span style={{color:"red"}}>{confirmpwd}</span>
     </label>
     <Buton click={handleClick} btn={"Enregistrer"}/>
-    <p className="signin">Vous avez deja un compte ? <a href="#">Conectez-vous</a> </p>
+    <p className="signin">Vous avez deja un compte ? <a href="/connexion">Conectez-vous</a> </p>
 </form>
     </div>
   )
@@ -230,54 +230,28 @@ async function token1(){
                     auth.login(login)
                     navigate(redirectPath, { replace: true })
            
-           }
-
-        
+           } 
     }else if(tokenadmin){
         {  
             auth.login(login)
             navigate(redirectPathAdmin, { replace: true })
-   
    }
-
     }
-   
 
    }catch(error){console.log(error)} 
 
-/*
-  function tokenValid(token){
-       const {exp}=jwtDecode(token);
-       if(exp*1000> new Date().getTime()){return true;}return false;
-  }
-   
-*/
-
 }
     
-
   token1()
  
-  /*async function test2(e){
-    e.preventDefault()
-
-    try{ const requestOptionst = { method: 'GET', mode: "cors", cache: "no-cache", credentials: "include", headers: {'Authorization':`Bearer ${token}` }, redirect: "follow", referrerPolicy: "no-referrer"};
-    const result= await fetch('http://localhost:3000/test/1', requestOptionst); 
-    const response = await result.json();
-    console.log(response); 
-    
-
-   }catch(error){console.log(error)} }
-
-  
-  test2()*/
   /***GOOGLE  */
+  
   const Google = async e=>{
     e.preventDefault()
  
-    try{ const requestOptions = { method: 'GET', mode: "cors", cache: "no-cache", credentials: "include", headers: { "Content-Type": "application/json", 'Access-Control-Allow-Origin': '*' }, redirect: "follow", referrerPolicy: "no-referrer" };
+    try{ const requestOptions = { method: 'GET', mode: "cors", cache: "no-cache", credentials: "include", headers: { "Content-Type": "application/json","Access-Control-Allow-Origin": "*" ,"Access-Control-Allow-Credentials": "true" }, redirect: "follow", referrerPolicy: "no-referrer" };
     
-    const result= await fetch('http://localhost:3000/auth/google', requestOptions); 
+    const result= await fetch('http://localhost:3000/auth/google',requestOptions); 
     const response = await result.json();
     console.log(response); 
 
@@ -299,8 +273,8 @@ async function token1(){
     <div>
     <form action="compte" method="post">
   <p className="logo">PARIS 2024</p>
-  <input type="text" onChange={handleChange} placeholder="Email" name="username" required=""/>
-  <input type="password" onChange={handleChange} placeholder="Password" name="password" required=""/>
+  <input type="text" onChange={handleChange} placeholder="Email" name="username" />
+  <input type="password" onChange={handleChange} placeholder="Password" name="password" />
   <div style={{color:"red"}}> <p>{erreur}</p></div>
   <Buton click={handleClick} btn={"Se connecter"}/>
   <a href="#">Mots de passe oublié ?</a>
@@ -310,9 +284,11 @@ async function token1(){
         <div className="card">
           <div className="card-body">
          <Boutton click={Google} btn={"test"}/>
-          <a class="btn btn-block" href="http://localhost:3000/auth/google" role="button">
-              <i class="fab fa-google"></i>
-              Sign In with Google
+          <a className="btn btn-block"  href="http://localhost:3000/auth/google" role="button">
+         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-google" viewBox="0 0 16 16">
+  <path d="M15.545 6.558a9.4 9.4 0 0 1 .139 1.626c0 2.434-.87 4.492-2.384 5.885h.002C11.978 15.292 10.158 16 8 16A8 8 0 1 1 8 0a7.7 7.7 0 0 1 5.352 2.082l-2.284 2.284A4.35 4.35 0 0 0 8 3.166c-2.087 0-3.86 1.408-4.492 3.304a4.8 4.8 0 0 0 0 3.063h.003c.635 1.893 2.405 3.301 4.492 3.301 1.078 0 2.004-.276 2.722-.764h-.003a3.7 3.7 0 0 0 1.599-2.431H8v-3.08z"/>
+</svg>
+               Sign In with Google
             </a>
             
           </div>

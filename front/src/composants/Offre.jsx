@@ -15,7 +15,6 @@ function Offrepage(){
     <div className="headeroffre kenburns-left">
       <h1 className=" police-titre titreoffre fw-bold text-body-emphasis"> Découvrez nos offres ! </h1>
     </div>
-       
         <OffreGrid />
        <Footer/>
     </div>
