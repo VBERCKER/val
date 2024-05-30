@@ -8,16 +8,12 @@ import session from "express-session";
 import passport from "passport"; 
 import {passportUse} from "./midleware/passport.js"
 
-
-
-
 import Stripe from 'stripe';
 
 import env from "dotenv"
 env.config();
 import {sequelize } from './config/db.config.js'
 import { verifyToken } from "./midleware/token.js";
-
 
 import {router as user_router} from "./Routes/userRoute.js"
 
@@ -40,9 +36,7 @@ const db = mysql.createConnection({
 const whitelist = ['http://localhost:3000','http://localhost:5173',"https://accounts.google.com/","https://checkout.stripe.com/" /** other domains if any */ ]
  const corsOptions = { 
     credentials: true, 
-    origin: true }
-    
-    /*function(origin, callback) { 
+    origin: function(origin, callback) { 
         if (whitelist.indexOf(origin) !== -1 ||!origin) 
         { callback(null, true) 
         } else {
@@ -51,7 +45,7 @@ const whitelist = ['http://localhost:3000','http://localhost:5173',"https://acco
             } 
         } 
      } 
-*/
+
     
    
  //app.use(express.urlencoded({limit:'30mb'}))    /// non non 
@@ -85,7 +79,7 @@ app.use("/test", user_router)
 
 
 
-//test 2
+//trouver utilisateru par id ****************************************
 app.get("/users/:id",(req,res )=>{
    
     const id = parseInt(req.params.id)

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import Buton from '../../composants/bouton'
-import Sidebar from '../../composants/sidebar'
+import Sidebar from '../../composants/template/sidebar'
 
 
 

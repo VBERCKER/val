@@ -9,7 +9,7 @@ let router = express.Router()
 
 /** les routes de user  */
 
-router.get("",(req,res)=>{
+router.get("/test",(req,res)=>{
 
      User.findAll()
          .then(users =>res.json({data:users}))
@@ -18,7 +18,19 @@ router.get("",(req,res)=>{
     })
 
 
-router.get("/:id",userCtrl.getUser)
+router.get("/users/:id",(req,res )=>{
+   
+    const id = parseInt(req.params.id)
+    const sql= "SELECT * FROM utilisateur WHERE id=(?)";
+    console.log(id)
+    db.query(sql,[id], (err,data)=>{
+        console.log(data)
+        if(err)return res.json(err);
+        return res.json(data);
+        
+    })
+    
+})
 
 router.patch("/:id")
 

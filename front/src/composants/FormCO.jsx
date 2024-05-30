@@ -3,13 +3,10 @@ import Buton from "./bouton";
 import { useNavigate} from "react-router-dom";
 import axios from 'axios';
 import {  useLocation } from 'react-router-dom'
-import { useAuth } from './auth';
-
-import * as yup from 'yup';
-import {userprenom,usernom,usermail,userpwd} from './validationForm';
-import { setCookie } from "./cookies";
-import { accountService } from "./auth1/servicetoken"
-import { jwtDecode } from "jwt-decode";
+import { useAuth } from './securite_cookies_token_auth_localstorage/auth';
+import {userprenom,usernom,usermail,userpwd} from './securite_cookies_token_auth_localstorage/validationForm';
+import { setCookie } from "./securite_cookies_token_auth_localstorage/cookies";
+import { accountService } from "./securite_cookies_token_auth_localstorage/servicetoken"
 import Boutton from "./bouton";
 
 
@@ -246,28 +243,11 @@ async function token1(){
  
   /***GOOGLE  */
   
-  const Google = async e=>{
-    e.preventDefault()
+  function google() {
+    window.location.href = "http://localhost:3000/auth/google";
+  }
+
  
-    try{ const requestOptions = { method: 'GET', mode: "cors", cache: "no-cache", credentials: "include", headers: { "Content-Type": "application/json","Access-Control-Allow-Origin": "*" ,"Access-Control-Allow-Credentials": "true" }, redirect: "follow", referrerPolicy: "no-referrer" };
-    
-    const result= await fetch('http://localhost:3000/auth/google',requestOptions); 
-    const response = await result.json();
-    console.log(response); 
-
-
-    if(response[0].name =='Autorisation'  && response[1].user.role === 'false')
-        { 
-            accountService.saveToken(response[2].access_token)
-            console.log(response[1].user.role)
-            auth.login(login)
-            setCookie('user',response[1].user.id,2)
-
-            navigate(redirectPath, { replace: true })
-    }else  {setErreur(response)} 
-}catch(error){console.log(error)} }
-
-  
   /********* */
   return(
     <div>
@@ -283,7 +263,8 @@ async function token1(){
 <div className="col-sm-12">
         <div className="card">
           <div className="card-body">
-         <Boutton click={Google} btn={"test"}/>
+         
+         
           <a className="btn btn-block"  href="http://localhost:3000/auth/google" role="button">
          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-google" viewBox="0 0 16 16">
   <path d="M15.545 6.558a9.4 9.4 0 0 1 .139 1.626c0 2.434-.87 4.492-2.384 5.885h.002C11.978 15.292 10.158 16 8 16A8 8 0 1 1 8 0a7.7 7.7 0 0 1 5.352 2.082l-2.284 2.284A4.35 4.35 0 0 0 8 3.166c-2.087 0-3.86 1.408-4.492 3.304a4.8 4.8 0 0 0 0 3.063h.003c.635 1.893 2.405 3.301 4.492 3.301 1.078 0 2.004-.276 2.722-.764h-.003a3.7 3.7 0 0 0 1.599-2.431H8v-3.08z"/>

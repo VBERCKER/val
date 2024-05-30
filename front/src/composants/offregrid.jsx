@@ -1,8 +1,5 @@
 import React, {useState,useEffect} from "react";
 import {Cardoffre1} from "./card";
-import { setCookie } from "./cookies";
-import { saveTickets,addTickets,getTickets } from "./gestionpanier";
-
 
 
 
