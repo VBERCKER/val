@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import Button from "./bouton";
 import { Link } from "react-router-dom";
-import { setCookie,getCookie } from "./cookies";
-import { saveTickets,addTickets,getTickets } from "./gestionpanier";
-import BoiteDialogue from "../composants/boite_dialogue_qrCode"; 
+
+import { addTickets } from "./securite_cookies_token_auth_localstorage/gestionpanier";
+import BoiteDialogue from "./boite_dialogue_qrCode"; 
 
 
 function Carte (props){
@@ -14,7 +14,7 @@ function Carte (props){
     <div className="row g-4 py-5 row-cols-1 row-cols-lg-3">
       <div className="col d-flex align-items-start">
         <div className="icon-square text-body-emphasis bg-body-secondary d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
-          <svg className="bi" width="1em" height="1em"><use xlink:href="#toggles2"></use></svg>
+          <svg className="bi" width="1em" height="1em"><use></use></svg>
         </div>
         <div>
           <h3 className=" police-titre fs-2">{props.hsport}</h3>
@@ -26,7 +26,7 @@ function Carte (props){
       </div>
       <div className="col d-flex align-items-start">
         <div className="icon-square text-body-emphasis bg-body-secondary d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
-          <svg className="bi" width="1em" height="1em"><use xlink:href="#cpu-fill"></use></svg>
+          <svg className="bi" width="1em" height="1em"><use></use></svg>
         </div>
         <div className="te">
           <h3 className=" police-titre fs-2 text-body-emphasis">{props.hoffre}</h3>
@@ -39,7 +39,7 @@ function Carte (props){
       </div>
       <div className="col d-flex align-items-start">
         <div className="icon-square text-body-emphasis bg-body-secondary d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
-          <svg className="bi" width="1em" height="1em"><use xlink:href="#tools"></use></svg>
+          <svg className="bi" width="1em" height="1em"><use ></use></svg>
         </div>
         <div>
           <h3 className=" police-titre fs-2 text-body-emphasis">{props.hjeu}</h3>
@@ -135,7 +135,6 @@ function CardCompte(props){
     </Link>
 
   </div>
-
 
   )
 }
