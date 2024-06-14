@@ -23,7 +23,7 @@ import {router as user_router} from "./Routes/userRoute.js"
 
 
 
-
+const port = 3000;
 const stripe = new Stripe(process.env.STRIPE_KEY);
 
 const app=express();
@@ -587,7 +587,7 @@ app.get("/ebillet/:id",(req,res)=>{
 /*******Satrt Serveur  */
 
 
-        app.listen(3000 ,()=>{console.log(`Le serveur fonctionne sur le port ${3000}`)});
+        app.listen(process.env.PORT || port ,()=>{console.log(`Le serveur fonctionne sur le port ${port}`)});
   
 // express 
 
