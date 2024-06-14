@@ -76,7 +76,9 @@ app.use(passport.session());
 
 //******************************* */
 
-
+app.get("/",(req,res)=>{
+    res.json("Hello World")
+})
 
 
 /// autorisation d'accès pages protéges *********************************************
